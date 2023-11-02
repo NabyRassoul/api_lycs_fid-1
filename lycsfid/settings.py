@@ -25,23 +25,34 @@ SECRET_KEY = 'django-insecure-6xvw72tpxum@z5w!fr7#is42_vkn-bx-)w4babj+m4q-degxo8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
+ALLOWED_HOSTS = ['*']
 
+AUTH_USER_MODEL = 'api_lycs_fid.User'
+
+REST_FRAMEWORK = {
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+
+}
 # Application definition
 
 INSTALLED_APPS = [
-# 'django.contrib.staticfiles',  # required for serving swagger ui's css/js files
-#    'drf_yasg',
-    'jazzmin',
-    "corsheaders",
-    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'api_lycs_fid',
+    'drf_yasg',
+    'jazzmin',
+    "corsheaders",
+    'rest_framework',
+    'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
@@ -80,7 +91,7 @@ WSGI_APPLICATION = 'lycsfid.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'api_lycs_fid',
+        'NAME': 'lycsFid',
         'USER': 'postgres',
         'PASSWORD': 'LycsDakar@23',
         'HOST': 'localhost',  # Laissez vide pour utiliser le localhost
