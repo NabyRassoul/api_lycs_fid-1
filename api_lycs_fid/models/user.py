@@ -6,7 +6,7 @@ from django.utils import timezone
 class MyUserManager(BaseUserManager):
     def create_user(self, email,lastName,firstName,phone,adresse, password=None):
         """
-        Creates and saves a User with the given email, \and password.
+        Creates and saves a User with the given email, \ and password.
         """
         if not email:
             raise ValueError('Users must have an email address')
@@ -48,16 +48,11 @@ class User(AbstractBaseUser,PermissionsMixin):
     admin-compliant permissions.
 
     """
-    # user_permissions = models.ManyToManyField(
-    #     Permission,
-    #     blank=True,
-    #     related_name='custom_user_permissions'
-    # )
-    # groups = models.ManyToManyField(Group, related_name='custom_user_groups')
-    phone = models.CharField(max_length=40, unique=True )
+  
+    phone = models.CharField(max_length=40, blank=True )
     firstName = models.CharField(max_length=100, blank=True)
     lastName = models.CharField(max_length=100, blank=True)
-    email = models.EmailField(verbose_name='email address', max_length=254,unique=True, blank=True, null=True)
+    email = models.EmailField(verbose_name='email address', max_length=254,unique=True, default="email")
     adresse = models.CharField(blank=True, max_length=255, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

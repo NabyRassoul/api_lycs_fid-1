@@ -8,5 +8,7 @@ class ClientSerializer(serializers.ModelSerializer):
     # user_id = UserSerializer(read_only=True)
     class Meta:
         model = Client
-        fields =('id','firstName','lastName','phone','adresse','email','user_id')
-        fields = '__all__'
+        fields = ('id','phone','lastName','firstName','password','adresse','email')
+        extra_kwargs = {'password': {'write_only': True}}
+
+        

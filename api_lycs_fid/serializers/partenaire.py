@@ -7,5 +7,6 @@ class PartnerSerializer(serializers.ModelSerializer):
     # user_id = UserSerializer(read_only=True)
     class Meta:
         model = Partner
-        fields =('id','firstName','lastName','phone','adresse','email','name','groupe','sousGroupe','ninea','user_id')
-        fields = '__all__'
+        fields =('id','firstName','lastName','phone','adresse','email','name','groupe','sousGroupe','ninea', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
+        

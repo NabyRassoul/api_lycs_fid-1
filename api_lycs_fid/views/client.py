@@ -40,7 +40,7 @@ def ClientExportFileView(request):
     writer = csv.writer(response)
     row =["firstName","lastName","phone","adresse","email"]
     writer.writerow(row)
-    for client in Client.objects.filter(archived=False):
+    for client in Client.objects:
 
         row =[
             client.firstName,
@@ -83,7 +83,7 @@ class ClientByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def get(self, request, id, format=None):
         try:
-            item = Client.objects.filter(archived=False).get(pk=id)
+            item = Client.objects.get(pk=id)
             serializer = ClientSerializer(item)
             return Response(serializer.data)
         except Client.DoesNotExist:
@@ -94,7 +94,7 @@ class ClientByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def put(self, request, id, format=None):
         try:
-            item = Client.objects.filter(archived=False).get(pk=id)
+            item = Client.objects.get(pk=id)
         except Client.DoesNotExist:
             return Response({
                 "status": "failure",
@@ -110,7 +110,7 @@ class ClientByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
     # def delete(self, request, id, format=None):
     def delete(self, request, *args, **kwargs):
         try:
-            item = Client.objects.filter(archived=False).get(id=kwargs["id"])
+            item = Client.objects.get(id=kwargs["id"])
         except Client.DoesNotExist:
             return Response({
                 "status": "failure",
@@ -128,7 +128,7 @@ class ClientByUser(generics.RetrieveAPIView):
 
     def get(self, request, id, format=None):
         try:
-            item = Client.objects.filter(archived=False).filter(createdBy=id)
+            item = Client.objects.filter(createdBy=id)
         
             serializer = ClientSerializer(item,many=True)
             return Response(serializer.data)

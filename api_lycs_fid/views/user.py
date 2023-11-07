@@ -1,20 +1,24 @@
+# from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions, status
 from api_lycs_fid.serializers import *
 from django.contrib.auth import authenticate, login
 from rest_framework.response import Response
-# from ..models import Parametre
+from rest_framework.decorators import action
+
+
+
 
 # list user 
-class UserAPIView(generics.ListCreateAPIView):
+class UserAPIView(generics.CreateAPIView):
     """
     GET api/v1/users/
     POST api/v1/users/
     """
-    queryset = User.objects.all()
+    # queryset = User.objects.all()
     serializer_class = UserSerializer
 
     def get(self, request, *args, **kwargs):
-        user = User.objects.all().order_by('-date_joined')
+        user = User.objects.all().order_by('-id')
         if not user:
             return Response({
                 "status": "failure",
@@ -23,49 +27,28 @@ class UserAPIView(generics.ListCreateAPIView):
 
         serializer = UserSerializer(user, many=True)
 
-        # parametres = Parametre.objects.filter(userId__in=user)
-        # parametre_serializer = ParametreSerializer(parametres, many=True)
-
-        user_data = serializer.data
-        # parametre_data = parametre_serializer.data
-
-
-        # for user, parametre in zip(user_data, parametre_data):
-        #     user['parametre'] = parametre
-
         return Response({
             "status": "success",
-            # "count": user.count(),
+            "message": "user successfully retrieved.",
             "data": serializer.data
         }, status=status.HTTP_200_OK)
 
     def post(self, request):
         #user = request.data
         serializer = UserSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if serializer.is_valid():
+            #je vais mettre mon email de notification
+            serializer.save()
+            return Response( serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=400)
+        
 
-
-class UserById(generics.RetrieveUpdateDestroyAPIView):
+class UserById(generics.UpdateAPIView):
     # permission_classes = (
     #     permissions.IsAuthenticated,
     # )
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
-
-
-    def get(self, request, id, format=None):
-        try:
-            item = User.objects.get(pk=id)
-            serializer = UserSerializer(item)
-            return Response(serializer.data)
-        except User.DoesNotExist:
-            return Response({
-                "status": "failure",
-                "message": "no such item with this id",
-                }, status=404)
 
     def put(self, request, id, format=None):
         try:
@@ -81,27 +64,24 @@ class UserById(generics.RetrieveUpdateDestroyAPIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
 
-class UserUpdatePassword(generics.CreateAPIView):
+class UserUpdatePassword(generics.UpdateAPIView):
     # permission_classes = (
     #     permissions.IsAuthenticated,
     # )
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    def put(self, request, id, format=None):
+    def put(self, request, format=None):
         try:
-            item = User.objects.filter(archived=False).get(pk=id)
+            email = request.data['email']
+            item = User.objects.get(email=email)
             password = request.data['password']
             item.set_password(password)
             item.save()
+            serializer = UserSerializer(item)
         except User.DoesNotExist:
             return Response({
                 "status": "failure",
-                "message": "no such item with this id",
+                "message": "no such item with this phone",
                 }, status=404) 
-        
-        # serializer = UserSerializer(item, data=request.data, partial= True)
-        # if serializer.is_valid(raise_exception=True):
-            # serializer.save()
-            # return Response(serializer.data)
-        return Response("serializer.errors", status=200)
+        return Response(serializer.data, status=200)

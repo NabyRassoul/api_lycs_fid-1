@@ -42,7 +42,7 @@ urlpatterns = [
 
     # authentification 
     path('login/', views.LoginView.as_view()),
-    path('logout/', views.logout_view),
+     path('logout/', views.logout_view),
     path('csrftoken', views.GetCSRFToken.as_view()),
 
     # path('reset-password/verify-token/', views.CustomPasswordTokenVerificationView.as_view(), name='password_reset_verify_token'),

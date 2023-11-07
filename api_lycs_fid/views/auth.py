@@ -1,5 +1,6 @@
 from rest_framework import generics, permissions, status
 from api_lycs_fid.serializers import *
+from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
@@ -10,9 +11,8 @@ from django.contrib.auth import logout
 from django.http import HttpResponse
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
-from rest_framework.views import APIView
 from api_lycs_fid.models import User 
-
+from rest_framework.views import APIView
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -27,23 +27,18 @@ class LoginView(generics.CreateAPIView):
     serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
-        # phone = request.data["phone"]
-        phone = request.data["phone"]
+        email = request.data["email"]
         password = request.data["password"]
         
         if not password:
             return Response(data={"message": "Both identifiant and password are required to connect"},status=400)
         else:
             try:
-                if phone :
-                    # userData = User.objects.get(phone=phone)
-                    # print("user data in phone", userData)
-                    user = authenticate(request, phone=phone, password=password)
-                # elif phone :
-                #     user = authenticate(request, phone=phone, password=password)
-                #     print("user data in phone")
-                # print("user",user)
+                if email :
+                    user = authenticate(request, email=email, password=password)
+                    print("voici mon user", user)
                 if user is not None:
+                    
                     login(request, user)
                     # Redirect to a success page.
                     serializer = TokenSerializer(data={"token": jwt_encode_handler(jwt_payload_handler(user))})
@@ -55,15 +50,14 @@ class LoginView(generics.CreateAPIView):
                             'phone': user.phone,
                             'firstName': user.firstName,
                             'lastName': user.lastName,
-                            'adresse': user.adresse,
                             'email':user.email,
-                            'user_type':user.user_type,
+                            # 'user_type':user.user_type,
                         }
                         return Response(response_data)   
                 else:
-                    return Response(data={"message": "Votre phone ou mot de passe est incorrect"},status=401)
+                    return Response(data={"message": "Votre email ou mot de passe est incorrect"},status=401)
             except User.DoesNotExist:
-                return Response(data={"message": "Ce phone n'existe pas"},status=401)
+                return Response(data={"message": "Cet utilisateur n'existe pas"},status=401)
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class GetCSRFToken(APIView):
     def get(self, request, format=None):
@@ -72,5 +66,7 @@ class GetCSRFToken(APIView):
         
 def logout_view(request):
     logout(request)
+
+
 
 

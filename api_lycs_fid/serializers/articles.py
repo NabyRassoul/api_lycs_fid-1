@@ -12,8 +12,8 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields =('id','dateDebutPromo','dateFinPromo','nomArticle','reduction','partnerId','description','prixDeVente','image','user_id')
-        fields = '__all__'
+        fields =('id','dateDebutPromo','dateFinPromo','nomArticle','reduction','description','prixDeVente','image','user_id','partnerId')
+      
         
 
     # def to_representation(self, instance):

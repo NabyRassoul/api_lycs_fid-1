@@ -1,6 +1,8 @@
 from api_lycs_fid.models import User
-from ..models import*
+# from ..models import User
 from rest_framework import serializers
+from rest_framework.request import Request
+from rest_framework.test import APIRequestFactory
 from django.contrib.auth import get_user_model
 
 
@@ -9,9 +11,9 @@ from django.contrib.auth import get_user_model
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model= User
-        fields = ('id','phone','lastName','firstName','password','email', 'user_type','adresse')
+        fields = ('id','phone','lastName','firstName','password','adresse','email')
         extra_kwargs = {'password': {'write_only': True}}
-        fields = '__all__'
+
     def create(self, validated_data):
         # return User.objects.create(**validated_data)
         user = User(
@@ -29,7 +31,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('phone', 'password')
+        fields = ('email', 'password')
 
 class TokenSerializer(serializers.Serializer):
     """
@@ -40,3 +42,4 @@ class TokenSerializer(serializers.Serializer):
 # for upload file 
 class FileUploadSerializer(serializers.Serializer):
     csv_file = serializers.FileField()
+

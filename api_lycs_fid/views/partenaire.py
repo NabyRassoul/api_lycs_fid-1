@@ -68,7 +68,7 @@ class PartnerAPIView(generics.ListCreateAPIView):
         return Response(serializer.errors, status=400)
 
     def get(self, request, format=None):
-        items = Partner.objects.filter(archived=False).all()
+        items = Partner.objects.all()
         serializer = PartnerSerializer(items, many=True)
         return Response({"count": items.count(),"data":serializer.data})
 
@@ -83,7 +83,7 @@ class PartnerByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def get(self, request, id, format=None):
         try:
-            item = Partner.objects.filter(archived=False).get(pk=id)
+            item = Partner.objects.get(pk=id)
             serializer = PartnerSerializer(item)
             return Response(serializer.data)
         except Partner.DoesNotExist:
@@ -94,7 +94,7 @@ class PartnerByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def put(self, request, id, format=None):
         try:
-            item = Partner.objects.filter(archived=False).get(pk=id)
+            item = Partner.objects.get(pk=id)
         except Partner.DoesNotExist:
             return Response({
                 "status": "failure",
@@ -110,7 +110,7 @@ class PartnerByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
     # def delete(self, request, id, format=None):
     def delete(self, request, *args, **kwargs):
         try:
-            item = Partner.objects.filter(archived=False).get(id=kwargs["id"])
+            item = Partner.objects.get(id=kwargs["id"])
         except Partner.DoesNotExist:
             return Response({
                 "status": "failure",
@@ -128,7 +128,7 @@ class PartnerByUser(generics.RetrieveAPIView):
 
     def get(self, request, id, format=None):
         try:
-            item = Partner.objects.filter(archived=False).filter(createdBy=id)
+            item = Partner.objects.filter(createdBy=id)
         
             serializer = PartnerSerializer(item,many=True)
             return Response(serializer.data)
