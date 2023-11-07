@@ -1,5 +1,5 @@
 from django.db import models
-from api_lycs_fid.models import User
+from api_lycs_fid.models import User, user
 
 
 class Partner(User):
@@ -7,6 +7,17 @@ class Partner(User):
     groupe = models.CharField(max_length=100, blank=True)
     sousGroupe = models.CharField(max_length=100, blank=True)
     ninea  = models.CharField(max_length=100, blank=True)
+    # is_active = models.BooleanField(default=False)
+    confirmation_token = models.CharField(max_length=100, null=True, blank=True)
+    
+    def save(self, *args, **kwargs):
+        # user.is_active=False
+        if not self.id:
+            # Si l'utilisateur est nouvellement créé, utilisez set_password pour hacher le mot de passe
+            self.set_password(self.password)
+
+        super(Partner, self).save(*args, **kwargs)
+        
     
     class Meta:
   

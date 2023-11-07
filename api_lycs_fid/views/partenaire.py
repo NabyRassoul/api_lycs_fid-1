@@ -3,6 +3,11 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 import io, csv, pandas as pd
 from ..models import Partner
+import uuid
+from django.core.mail import EmailMessage
+from django.utils.html import format_html
+from django.core.mail import send_mail
+from django.urls import reverse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -63,7 +68,24 @@ class PartnerAPIView(generics.ListCreateAPIView):
     def post(self, request, format=None):
         serializer = PartnerSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            user= serializer.save()
+            # Ajoutez la logique pour générer le jeton de confirmation et envoyer l'e-mail de confirmation ici
+            # Générez un jeton de confirmation unique
+            confirmation_token = str(uuid.uuid4())
+            user.confirmation_token = confirmation_token
+            user.is_active = False  # L'utilisateur n'est pas encore confirmé
+            user.save()
+            # Envoyez un e-mail de confirmation.
+            confirmation_url = reverse('confirm-email', args=[confirmation_token])
+            subject = 'Confirmez votre inscription'
+            message = format_html('Cliquez sur le lien suivant pour confirmer votre inscription : <a href="{}">Confirmer l\'inscription</a>', confirmation_url)
+            from_email = 'mouhamed.ba@agencelycs.com'
+            recipient_list = [user.email]
+
+            email = EmailMessage(subject, message, from_email, recipient_list)
+            email.content_subtype = "html"  # Définir le type de contenu de l'e-mail comme HTML
+            email.send()
+
             return Response(serializer.data,status=201)
         return Response(serializer.errors, status=400)
 
