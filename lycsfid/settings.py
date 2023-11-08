@@ -117,16 +117,7 @@ if 'RDS_DB_NAME' in os.environ:
         }
     }
 else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'lycsFid',
-            'USER': 'postgres',
-            'PASSWORD': 'LycsDakar@23',
-            'HOST': 'localhost',  # Laissez vide pour utiliser le localhost
-            'PORT': '5432',  # Laissez vide pour utiliser le port par défaut (5432)
-        }
-    }
+ 
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
