@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import os
+# importation de config
+from decouple import config
+#importation database-url
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6xvw72tpxum@z5w!fr7#is42_vkn-bx-)w4babj+m4q-degxo8'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -105,30 +109,33 @@ WSGI_APPLICATION = 'lycsfid.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-if 'RDS_DB_NAME' in os.environ:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.environ['RDS_DB_NAME'],
-            'USER': os.environ['RDS_USERNAME'],
-            'PASSWORD': os.environ['RDS_PASSWORD'],
-            'HOST': os.environ['RDS_HOSTNAME'],
-            'PORT': os.environ['RDS_PORT'],
-        }
-    }
-else:
+# if 'RDS_DB_NAME' in os.environ:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': os.environ['RDS_DB_NAME'],
+#             'USER': os.environ['RDS_USERNAME'],
+#             'PASSWORD': os.environ['RDS_PASSWORD'],
+#             'HOST': os.environ['RDS_HOSTNAME'],
+#             'PORT': os.environ['RDS_PORT'],
+#         }
+#     }
+# else:
 
-     DATABASES = {
+#      DATABASES = {
 
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'lycsFid',
-            'USER': 'postgres',
-            'PASSWORD': 'LycsDakar@23',
-            'HOST': 'localhost',  # Laissez vide pour utiliser le localhost
-            'PORT': '5432',  # Laissez vide pour utiliser le port par défaut (5432)
-        }
-    }
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql',
+#             'NAME': 'lycsFid',
+#             'USER': 'postgres',
+#             'PASSWORD': 'LycsDakar@23',
+#             'HOST': 'localhost',  # Laissez vide pour utiliser le localhost
+#             'PORT': '5432',  # Laissez vide pour utiliser le port par défaut (5432)
+#         }
+#     }
+DATABASE ={
+    'default':dj_database_url.parse(config('DATABASE_URL'))
+}
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
