@@ -108,7 +108,7 @@ WSGI_APPLICATION = 'lycsfid.wsgi.application'
 
 
 
-DATABASE ={
+DATABASES ={
     'default':dj_database_url.parse(config('DATABASE_URL'))
 }
 
