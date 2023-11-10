@@ -78,6 +78,7 @@ SIMPLE_JWT = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+     'corsheaders.middleware.CorsMiddleware',   
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -149,6 +150,7 @@ EMAIL_HOST_USER = 'nabipulo@gmail.com'
 EMAIL_HOST_PASSWORD = 'cosqnimydglosxug'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_USE_SSL= False
 
 PASSWORD_RESET_TIMEOUT = 14400
 # Internationalization
@@ -177,3 +179,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000","https://lycsfid.onrender.com"]
+CORS_ALLOW_ALL_ORIGINS = True

@@ -7,6 +7,7 @@ import uuid
 from django.core.mail import EmailMessage
 from django.utils.html import format_html
 from django.core.mail import send_mail
+from lycsfid.settings import EMAIL_HOST_USER
 from django.urls import reverse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -74,17 +75,31 @@ class PartnerAPIView(generics.ListCreateAPIView):
             confirmation_token = str(uuid.uuid4())
             user.confirmation_token = confirmation_token
             user.is_active = False  # L'utilisateur n'est pas encore confirmé
+            #EMAIL MESSAGE
+            subject = 'Confirmez votre inscription'
+            message= "Bienvenue chez nous" + " " + user.firstName + " " + user.lastName + " " + "Votre inscription est en face de validation"
+            recipient_list = [user.email]
+            send_mail(subject, message, EmailMessage, recipient_list, fail_silently=True)
+            
+            if not user.is_active : 
+                subject = 'Validation du compte'
+                # from_email= "EMAIL_HOST_USER"
+                message= "Bienvenue chez nous"+ " "+ user.firstName + " " + user.lastName + " " + "Fellcitations votre compte a ete active"
+                recipient_list = [user.email]
+                send_mail(subject, message, EmailMessage, recipient_list, fail_silently=True)
             user.save()
             # Envoyez un e-mail de confirmation.
-            confirmation_url = reverse('confirm-email', args=[confirmation_token])
-            subject = 'Confirmez votre inscription'
-            message = format_html('Cliquez sur le lien suivant pour confirmer votre inscription : <a href="{}">Confirmer l\'inscription</a>', confirmation_url)
-            from_email = 'mouhamed.ba@agencelycs.com'
-            recipient_list = [user.email]
+            # confirmation_url = reverse('confirm-email', args=[confirmation_token])
+            # subject = 'Confirmez votre inscription'
+            # message = format_html('Cliquez sur le lien suivant pour confirmer votre inscription : <a href="{}">Confirmer l\'inscription</a>', confirmation_url)
+            # from_email = 'mouhamed.ba@agencelycs.com'
+            # recipient_list = [user.email]
 
-            email = EmailMessage(subject, message, from_email, recipient_list)
-            email.content_subtype = "html"  # Définir le type de contenu de l'e-mail comme HTML
-            email.send()
+            # email = EmailMessage(subject, message, from_email, recipient_list)
+            # email.content_subtype = "html"  # Définir le type de contenu de l'e-mail comme HTML
+            # email.send()
+           
+                
 
             return Response(serializer.data,status=201)
         return Response(serializer.errors, status=400)
