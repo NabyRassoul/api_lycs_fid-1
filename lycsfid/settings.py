@@ -193,6 +193,9 @@ CORS_ALLOW_HEADERS = [
     "csrftoken",
     "x-requested-with",
     "http_x_csrftoken"
+    'access-control-allow-origin',
+    'access-control-allow-credentials',
+    'mode'
 ]
 CORS_ALLOW_METHODS = (
     "DELETE",
