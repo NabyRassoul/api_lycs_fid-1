@@ -15,8 +15,10 @@ class Partner(User):
         if not self.id:
             # Si l'utilisateur est nouvellement créé, utilisez set_password pour hacher le mot de passe
             self.set_password(self.password)
+            self.is_active = False
 
         super(Partner, self).save(*args, **kwargs)
+    
         
     
     class Meta:

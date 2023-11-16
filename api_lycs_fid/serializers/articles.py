@@ -1,18 +1,44 @@
-from api_lycs_fid.models import Article
+from api_lycs_fid.models import Article 
 from ..models import*
 from rest_framework import serializers
-from .partenaire import PartnerSerializer
+from .user import UserSerializer
 from django.contrib.auth import get_user_model
 
 
 class ArticleSerializer(serializers.ModelSerializer):
     # user_id = UserSerializer(read_only=True)
-    partnerId = PartnerSerializer(read_only=True)
-    user_id = serializers.PrimaryKeyRelatedField(queryset=Partner.objects.all(), source='partnerId') 
+    likes = UserSerializer(many=True, read_only=True)
+    views = UserSerializer(many=True, read_only=True)
+    author= serializers.SerializerMethodField()
+    like_count= serializers.SerializerMethodField()
+    view_count= serializers.SerializerMethodField()
+    is_liked= serializers.SerializerMethodField()
+    is_viewed= serializers.SerializerMethodField()
+    
+   # user_id = serializers.PrimaryKeyRelatedField(queryset=Partner.objects.all(), source='partnerId') 
 
     class Meta:
         model = Article
-        fields =('id','dateDebutPromo','dateFinPromo','nomArticle','reduction','description','prixDeVente','image','user_id','partnerId')
+        fields = ('id','nomArticle','description','prix','image','views','likes','author','like_count','view_count','is_liked','is_viewed')
+        
+    def get_author(self, obj):
+        return obj.author.firstName
+    
+    def get_like_count(self, obj):
+        return len(obj.likes.all())
+    
+    def get_view_count(self, obj):
+        return len(obj.views.all())
+    #verifier si l'utilisateur a vu ou aimer l'article
+    def get_is_liked(self, obj):
+        user= self.context['request'].user
+        return True if user in obj.likes.all() else False
+    
+    def get_is_viewed(self, obj):
+        user= self.context['request'].user
+        return True if user in obj.views.all() else False
+        
+        
       
         
 

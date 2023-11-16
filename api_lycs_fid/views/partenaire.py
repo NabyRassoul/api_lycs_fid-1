@@ -59,49 +59,44 @@ def PartnerExportFileView(request):
 
     return response
 
-class PartnerAPIView(generics.ListCreateAPIView):
+class PartnerAPIView(generics.CreateAPIView):
     """
-    POST api/v1/Partner/
+    POST api/v1/partenaires/
     """
-    queryset = Partner.objects.all()
+    
+    queryset= Partner.objects.all()
     serializer_class = PartnerSerializer
 
     def post(self, request, format=None):
         serializer = PartnerSerializer(data=request.data)
+        
         if serializer.is_valid():
-            user= serializer.save()
-            # Ajoutez la logique pour générer le jeton de confirmation et envoyer l'e-mail de confirmation ici
+            user = serializer.save()
+            
             # Générez un jeton de confirmation unique
             confirmation_token = str(uuid.uuid4())
             user.confirmation_token = confirmation_token
-            user.is_active = False  # L'utilisateur n'est pas encore confirmé
-            #EMAIL MESSAGE
-            subject = 'Confirmez votre inscription'
-            message= "Bienvenue chez nous" + " " + user.firstName + " " + user.lastName + " " + "Votre inscription est en face de validation"
-            recipient_list = [user.email]
-            send_mail(subject, message, EmailMessage, recipient_list, fail_silently=True)
-            
-            if not user.is_active : 
+
+            if user.is_active:
+                # Utilisateur actif
                 subject = 'Validation du compte'
-                # from_email= "EMAIL_HOST_USER"
-                message= "Bienvenue chez nous"+ " "+ user.firstName + " " + user.lastName + " " + "Fellcitations votre compte a ete active"
-                recipient_list = [user.email]
-                send_mail(subject, message, EmailMessage, recipient_list, fail_silently=True)
+                message = f"Bienvenue chez nous {user.firstName} {user.lastName} Félicitations, votre compte a été activé"
+            else:
+                # Utilisateur non actif
+                subject = 'Confirmez votre inscription'
+                message = f"Bienvenue chez nous {user.firstName} {user.lastName} Votre inscription est en attente de validation"
+
+            # EMAIL MESSAGE
+            recipient_list = [user.email]
+            from_email = 'mouhamed.ba@agencelycs.com'
+            email = EmailMessage(subject, message, from_email, recipient_list)
+            email.content_subtype = "html" 
+            email.send()
+
             user.save()
-            # Envoyez un e-mail de confirmation.
-            # confirmation_url = reverse('confirm-email', args=[confirmation_token])
-            # subject = 'Confirmez votre inscription'
-            # message = format_html('Cliquez sur le lien suivant pour confirmer votre inscription : <a href="{}">Confirmer l\'inscription</a>', confirmation_url)
-            # from_email = 'mouhamed.ba@agencelycs.com'
-            # recipient_list = [user.email]
 
-            # email = EmailMessage(subject, message, from_email, recipient_list)
-            # email.content_subtype = "html"  # Définir le type de contenu de l'e-mail comme HTML
-            # email.send()
-           
-                
-
-            return Response(serializer.data,status=201)
+            return Response(serializer.data, status=201)
+        
         return Response(serializer.errors, status=400)
 
     def get(self, request, format=None):
@@ -117,6 +112,7 @@ class PartnerByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
     # )
     queryset = Partner.objects.all()
     serializer_class = PartnerSerializer
+    
 
     def get(self, request, id, format=None):
         try:
@@ -132,6 +128,14 @@ class PartnerByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
     def put(self, request, id, format=None):
         try:
             item = Partner.objects.get(pk=id)
+            
+            if not user.is_active : 
+                subject = 'Validation du compte'
+                # from_email= "EMAIL_HOST_USER"
+                message= "Bienvenue chez nous"+ " "+ user.firstName + " " + user.lastName + " " + "Fellcitations votre compte a ete active"
+                recipient_list = [user.email]
+                send_mail(subject, message, EmailMessage, recipient_list, fail_silently=True)
+           
         except Partner.DoesNotExist:
             return Response({
                 "status": "failure",

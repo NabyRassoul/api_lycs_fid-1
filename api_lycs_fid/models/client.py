@@ -3,6 +3,8 @@ from api_lycs_fid.models import User
 
 
 class Client(User):
+    age = models.CharField(max_length=250,blank=True)
+    sexe = models.CharField(max_length=250,blank=True)
    
     def save(self, *args, **kwargs):
         if not self.id:

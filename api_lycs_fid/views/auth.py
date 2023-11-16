@@ -69,8 +69,10 @@ class GetCSRFToken(APIView):
         print(request.META['CSRF_COOKIE'])
         return Response({ 'success': 'CSRF cookie set',"csrftoken":request.META['CSRF_COOKIE'] })
         
-def logout_view(request):
-    logout(request)
+class LogoutView(APIView):
+  def get(self, request):
+      logout(request)
+      return Response({ 'success': "logged out"})
 
 
 

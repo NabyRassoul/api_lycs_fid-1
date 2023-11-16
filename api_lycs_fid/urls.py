@@ -44,7 +44,7 @@ urlpatterns = [
     path('login/', views.LoginView.as_view()),
     # path('partners/login/', views.PartnerLoginView.as_view(), name='login'),
 
-    path('logout/', views.logout_view),
+    path('logout/', views.LogoutView.as_view()),
     path('csrftoken', views.GetCSRFToken.as_view()),
 
     # path('reset-password/verify-token/', views.CustomPasswordTokenVerificationView.as_view(), name='password_reset_verify_token'),
@@ -77,6 +77,13 @@ urlpatterns = [
     path('articles/<int:id>/',views.ArticleByIdAPIView.as_view()),
     # path('articles/user/<int:id>/',views.ArticleByUser.as_view()),
 
+      #Campagne
+    path('campagnes/',views.CampagneAPIView.as_view()),
+    path('campagnes/<int:id>/',views.CampagneByIdAPIView.as_view()),
+    
+    #Bon de Reduction
+    path('bon/',views.BonReductionAPIView.as_view()),
+    path('bon/<int:id>/',views.BonReductionByIdAPIView.as_view()),
     
     
     #parametre
