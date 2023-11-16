@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .view import  ConfirmEmail
+from django.conf import settings
+from django.conf.urls.static import static
 # from django.contrib.auth import views as auth_views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
@@ -24,8 +26,10 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/',include("api_lycs_fid.urls") ),
+    path('api/v1/',include("api_lycs_fids.urls") ),
     path('confirm/<str:token>/', ConfirmEmail.as_view(), name='confirm-email'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

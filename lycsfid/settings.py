@@ -46,6 +46,7 @@ REST_FRAMEWORK = {
 # Application definition
 
 INSTALLED_APPS = [
+    'api_lycs_fids.apps.ApiLycsFidsConfig',
      'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -53,7 +54,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api_lycs_fid.apps.ApiLycsFidConfig',
     'drf_yasg',
     "corsheaders",
     'rest_framework',
@@ -169,7 +169,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-AUTH_USER_MODEL = 'api_lycs_fid.User'
+AUTH_USER_MODEL = 'api_lycs_fids.User'
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') #le chemin du serveur pour stocker les fichiers sur l’ordinateur. 
 MEDIA_URL = '/media/'# comment l’URL de référence permettant au navigateur d’accéder aux fichiers via Http.
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
