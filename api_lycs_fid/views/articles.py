@@ -12,7 +12,7 @@ class ArticleAPIView(generics.CreateAPIView):
     serializer_class = ArticleSerializer
 
     def post(self, request, format=None):
-        serializer = ArticleSerializer(data=request.data)
+        serializer = ArticleSerializer(data=request.data,context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response( serializer.data,status=201)

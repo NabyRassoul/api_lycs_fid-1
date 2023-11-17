@@ -24,6 +24,9 @@ class ClientUploadFileView(generics.CreateAPIView):
                 telephone= row["phone"],
                 adresse= row["adresse"],
                 email= row["email"],
+                age= row["age"],
+                sexe= row["sexe"],
+                
                 user_id = user
                 )
             new_file.save()

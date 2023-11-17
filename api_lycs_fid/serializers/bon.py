@@ -22,7 +22,13 @@ class BonReductionSerializer(serializers.ModelSerializer):
         fields = ('id','dateDebut','dateFin','typeDeReduction','codeDeReduction','montantDeReduction','image','views','likes','author','like_count','view_count','is_liked','is_viewed')
         
     def get_author(self, obj):
-        return obj.author.firstName
+        if obj.author is not None:
+            return obj.author.firstName
+        else:
+        # Decide what to return or do when authorCamp is None
+        # You might return a default value, raise an exception, or handle it in some other way
+            return None  # or another default value or action
+
     
     def get_like_count(self, obj):
         return len(obj.likes.all())
