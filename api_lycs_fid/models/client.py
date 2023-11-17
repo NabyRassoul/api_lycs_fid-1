@@ -1,10 +1,16 @@
 from django.db import models
 from api_lycs_fid.models import User
-
-
+CHOIX_SEXE = (
+        ('H', 'Homme'),
+        ('F', 'Femme'),
+    )
+CHOIX_AGE= (
+    ('ADULTE','Adulte'),
+    ('ENFANT','Enfant')
+)
 class Client(User):
-    age = models.CharField(max_length=250,blank=True)
-    sexe = models.CharField(max_length=250,blank=True)
+    age = models.CharField(max_length=250,blank=True, choices=CHOIX_AGE)
+    sexe = models.CharField(max_length=250,blank=True, choices=CHOIX_SEXE)
    
     def save(self, *args, **kwargs):
         if not self.id:

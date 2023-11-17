@@ -1,17 +1,25 @@
 from django.db import models
 from django.utils import timezone
 from .user import User
-
+CHOIX_SEXE = (
+        ('H', 'Homme'),
+        ('F', 'Femme'),
+    )
+CHOIX_AGE= (
+    ('ADULTE','Adulte'),
+    ('ENFANT','Enfant')
+)
 
 class BonReduction(models.Model):
+    
     dateDebut = models.DateTimeField(default=timezone.now)
     dateFin = models.DateTimeField(default=timezone.now)
     typeDeReduction = models.CharField(max_length=250)
     codeDeReduction = models.CharField(max_length=512, blank=True)
     montantDeReduction = models.IntegerField()
     quantityBon = models.IntegerField()
-    ageCible = models.CharField(max_length=250,blank=True)
-    sexeCible = models.CharField(max_length=250,blank=True)
+    ageCible = models.CharField(max_length=50,blank=True, choices=CHOIX_AGE)
+    sexeCible = models.CharField(max_length=250,blank=True, choices=CHOIX_SEXE)
     adresse = models.CharField(max_length=250,blank=True)
     image = models.ImageField(upload_to='images/',null=True, blank=True)
     author = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True, related_name='authorBon')

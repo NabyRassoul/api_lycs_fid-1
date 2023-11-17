@@ -2,14 +2,22 @@ from django.db import models
 from django.utils import timezone
 from .partenaire import Partner
 from .user import User
+CHOIX_SEXE = (
+        ('H', 'Masculin'),
+        ('F', 'Féminin'),
+    )
+CHOIX_AGE= (
+    ('ADULTE','Homme'),
+    ('ENFANT','Femme')
+)
 
 
 class Campagne(models.Model):
     dateDebut = models.DateTimeField(default=timezone.now)
     dateFin = models.DateTimeField(default=timezone.now)
     nomCampagne = models.CharField(max_length=250)
-    ageCible = models.CharField(max_length=250,blank=True)
-    sexeCilbe = models.CharField(max_length=250,blank=True)
+    ageCible = models.CharField(max_length=250,blank=True, choices=CHOIX_AGE)
+    sexeCilbe = models.CharField(max_length=250,blank=True,choices=CHOIX_SEXE)
     adresse = models.CharField(max_length=250,blank=True)
     description = models.CharField(max_length=512, blank=True)
     image = models.ImageField(upload_to='images/',null=True, blank=True)
