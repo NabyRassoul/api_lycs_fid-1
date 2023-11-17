@@ -11,7 +11,7 @@ class BonReduction(models.Model):
     montantDeReduction = models.IntegerField()
     quantityBon = models.IntegerField()
     ageCible = models.CharField(max_length=250,blank=True)
-    sexeCilbe = models.CharField(max_length=250,blank=True)
+    sexeCible = models.CharField(max_length=250,blank=True)
     adresse = models.CharField(max_length=250,blank=True)
     image = models.ImageField(upload_to='images/',null=True, blank=True)
     author = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True, related_name='authorBon')
