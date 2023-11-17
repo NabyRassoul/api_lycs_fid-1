@@ -19,7 +19,7 @@ class BonReductionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BonReduction
-        fields = ('id','dateDebut','dateFin','typeDeReduction','codeDeReduction','montantDeReduction','image','views','likes','author','like_count','view_count','is_liked','is_viewed')
+        fields = ('id','dateDebut','dateFin','typeDeReduction','codeDeReduction','montantDeReduction','quantityBon','ageCible','sexeCible','adresse','image','views','likes','author','like_count','view_count','is_liked','is_viewed')
         
     def get_author(self, obj):
         if obj.author is not None:
