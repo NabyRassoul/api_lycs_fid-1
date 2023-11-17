@@ -19,7 +19,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('id','nomArticle','description','prix','image','views','likes','author','like_count','view_count','is_liked','is_viewed')
+        fields = ('id','nomArticle','description','prix','dateDebut','dateFin','image','views','likes','author','like_count','view_count','is_liked','is_viewed')
         
     def get_author(self, obj):
         if obj.author is not None:
