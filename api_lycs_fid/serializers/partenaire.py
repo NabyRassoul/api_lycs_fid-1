@@ -8,7 +8,7 @@ class PartnerSerializer(serializers.ModelSerializer):
     # confirm_password = serializers.CharField(write_only=True)
     class Meta:
         model = Partner
-        fields =('id','firstName','lastName','phone','adresse','email','name','groupe','sousGroupe','ninea', 'password')
+        fields =('id','firstName','lastName','phone','adresse','email','name','groupe','sousGroupe','contactRef','ninea', 'password')
         extra_kwargs = {'password': {'write_only': True}}
     
     # def validate(self, data):

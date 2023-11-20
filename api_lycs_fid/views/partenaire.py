@@ -30,6 +30,10 @@ class PartnerUploadFileView(generics.CreateAPIView):
                 telephone= row["phone"],
                 adresse= row["adresse"],
                 email= row["email"],
+                groupe= row["groupe"],
+                sousGroupe= ["sousGroupe"],
+                ninea= ["ninea"],
+                contactRef= ["contactRef"],
                 user_id = user
                 )
             new_file.save()
@@ -53,7 +57,11 @@ def PartnerExportFileView(request):
             partner.lastName,
             partner.phone,
             partner.adresse,
-            partner.email
+            partner.email,
+            partner.contactRef,
+            partner.groupe,
+            partner.ninea,
+            partner.sousGroupe
         ]
         writer.writerow(row)
 
