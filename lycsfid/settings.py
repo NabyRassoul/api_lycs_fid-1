@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     'drf_yasg',
     "corsheaders",
     'rest_framework',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+     'utils',
 ]
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),

@@ -70,6 +70,8 @@ urlpatterns = [
     path('partenaires/export',views.PartnerExportFileView),
     path('partenaires/<int:id>/',views.PartnerByIdAPIView.as_view()),
     path('partenaires/user/<int:id>/',views.PartnerByUser.as_view()),
+    path('partenaires/active/<int:id>/',views.ComptIsActivate.as_view()),
+    
 
 
     # Articles
@@ -85,6 +87,8 @@ urlpatterns = [
     path('bon/',views.BonReductionAPIView.as_view()),
     path('bon/<int:id>/',views.BonReductionByIdAPIView.as_view()),
     
+    # path('mytest/',views.MytestViews.as_view()), 
+    # path('mytest/<int:id>/',views.ModelByIdAPIView.as_view()),
     
     #parametre
     # path('parametres/', views.ParametreList.as_view()),

@@ -25,6 +25,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/',include("api_lycs_fid.urls") ),
+    path('api/v1/',include("utils.urls") ),
     path('confirm/<str:token>/', ConfirmEmail.as_view(), name='confirm-email'),
 ]
 

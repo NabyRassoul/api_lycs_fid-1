@@ -9,11 +9,17 @@ from django.contrib.auth import get_user_model
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    confirm_password = serializers.CharField(write_only=True)
     class Meta:
-        model= User
-        fields = ('id','phone','lastName','firstName','password','adresse','email')
+        model= get_user_model()
+        fields = ('id','phone','lastName','firstName','password','confirm_password','adresse','email')
         extra_kwargs = {'password': {'write_only': True}}
 
+    def validate(self, data):
+        if data['password'] != data['confirm_password']:
+            raise serializers.ValidationError("Les mots de passe ne correspondent pas.")
+        return data
+    
     def create(self, validated_data):
         # return User.objects.create(**validated_data)
         user = User(

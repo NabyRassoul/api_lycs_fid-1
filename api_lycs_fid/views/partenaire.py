@@ -124,18 +124,10 @@ class PartnerByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
                 "status": "failure",
                 "message": "no such item with this id",
                 }, status=404)
-
+            
     def put(self, request, id, format=None):
         try:
             item = Partner.objects.get(pk=id)
-            
-            if not user.is_active : 
-                subject = 'Validation du compte'
-                # from_email= "EMAIL_HOST_USER"
-                message= "Bienvenue chez nous"+ " "+ user.firstName + " " + user.lastName + " " + "Fellcitations votre compte a ete active"
-                recipient_list = [user.email]
-                send_mail(subject, message, EmailMessage, recipient_list, fail_silently=True)
-           
         except Partner.DoesNotExist:
             return Response({
                 "status": "failure",
@@ -148,6 +140,7 @@ class PartnerByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
 
+            # return Response(serializer.errors, status=400)
     # def delete(self, request, id, format=None):
     def delete(self, request, *args, **kwargs):
         try:
@@ -178,3 +171,28 @@ class PartnerByUser(generics.RetrieveAPIView):
                 "status": "failure",
                 "message": "no such item with this id",
                 }, status=404)
+class ComptIsActivate(generics.RetrieveAPIView):
+    queryset= Partner.objects.all()
+    serializer_class = PartnerSerializer
+    def get(self, request, id, format=None):
+        try:
+            partner = Partner.objects.get(pk=id)
+            partner.is_active = True
+            partner.save()
+           
+    # Envoyez un deuxième e-mail si is_active est maintenant True
+            subject = 'Confirmation du compte actif'
+            message = f"Votre compte chez nous {partner.firstName} {partner.lastName} est maintenant actif. Merci de votre inscription.http://127.0.0.1:8000/"
+            recipient_list = [partner.email]
+            from_email = 'mouhamed.ba@agencelycs.com'
+            email = EmailMessage(subject, message, from_email, recipient_list)
+            email.content_subtype = "html" 
+            email.send()
+
+            return Response({'message':message})
+
+        except Partner.DoesNotExist:
+            return Response({
+                "status": "failure",
+                "message": "No such item with this id",
+            }, status=404)

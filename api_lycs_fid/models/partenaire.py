@@ -4,6 +4,7 @@ from api_lycs_fid.models import User, user
 
 class Partner(User):
     name = models.CharField(max_length=100, blank=True)
+    contactRef = models.CharField(max_length=100, blank=True)
     groupe = models.CharField(max_length=100, blank=True)
     sousGroupe = models.CharField(max_length=100, blank=True)
     ninea  = models.CharField(max_length=100, blank=True)
