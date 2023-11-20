@@ -8,11 +8,12 @@ class ArticleAPIView(generics.CreateAPIView):
     """
     POST api/v1/Article/
     """
-    # queryset = Article.objects.all()
+    queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 
-    def post(self, request, format=None):
-        serializer = ArticleSerializer(data=request.data,context={'request': request})
+    def post(self, request):
+        
+        serializer = ArticleSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response( serializer.data,status=201)

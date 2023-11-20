@@ -12,14 +12,14 @@ class ArticleSerializer(serializers.ModelSerializer):
     author= serializers.SerializerMethodField()
     like_count= serializers.SerializerMethodField()
     view_count= serializers.SerializerMethodField()
-    is_liked= serializers.SerializerMethodField()
-    is_viewed= serializers.SerializerMethodField()
+    # is_liked= serializers.SerializerMethodField()
+    # is_viewed= serializers.SerializerMethodField()
     
    # user_id = serializers.PrimaryKeyRelatedField(queryset=Partner.objects.all(), source='partnerId') 
 
     class Meta:
         model = Article
-        fields = ('id','nomArticle','description','prix','dateDebut','dateFin','image','views','likes','author','like_count','view_count','is_liked','is_viewed')
+        fields = ('id','nomArticle','description','prix','dateDebut','dateFin','image','views','likes','author','like_count','view_count')
         
     def get_author(self, obj):
         if obj.author is not None:
@@ -28,6 +28,7 @@ class ArticleSerializer(serializers.ModelSerializer):
         # Decide what to return or do when authorCamp is None
         # You might return a default value, raise an exception, or handle it in some other way
             return None  # or another default value or action
+
     
     def get_like_count(self, obj):
         return len(obj.likes.all())
@@ -35,13 +36,14 @@ class ArticleSerializer(serializers.ModelSerializer):
     def get_view_count(self, obj):
         return len(obj.views.all())
     #verifier si l'utilisateur a vu ou aimer l'article
-    def get_is_liked(self, obj):
-        user= self.context['request'].user
-        return True if user in obj.likes.all() else False
     
-    def get_is_viewed(self, obj):
-        user= self.context['request'].user
-        return True if user in obj.views.all() else False
+    # def get_is_liked(self, obj):
+    #     user= self.context['request'].user
+    #     return True if user in obj.likes.all() else False
+    
+    # def get_is_viewed(self, obj):
+    #     user= self.context['request'].user
+    #     return True if user in obj.views.all() else False
         
         
       
