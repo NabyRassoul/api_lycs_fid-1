@@ -82,6 +82,8 @@ urlpatterns = [
       #Campagne
     path('campagnes/',views.CampagneAPIView.as_view()),
     path('campagnes/<int:id>/',views.CampagneByIdAPIView.as_view()),
+    path('campagnes/<int:pk>/like/', views.LikeView.as_view(), name='campagne-like'),
+    path('campagnes/<int:pk>/view/', views.ViewView.as_view(), name='campagne-view'),
     
     #Bon de Reduction
     path('bon/',views.BonReductionAPIView.as_view()),

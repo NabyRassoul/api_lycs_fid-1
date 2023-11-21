@@ -6,3 +6,4 @@ from .bon import *
 from .auth import *
 from .campagne import *
 from .mytest import *
+from .likesViews import *

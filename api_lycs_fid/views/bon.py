@@ -8,6 +8,7 @@ class BonReductionAPIView(generics.CreateAPIView):
     """
     POST api/v1/bon/
     """
+    
     queryset = BonReduction.objects.all()
     serializer_class = BonReductionSerializer
 

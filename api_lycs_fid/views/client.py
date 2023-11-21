@@ -5,7 +5,7 @@ import io, csv, pandas as pd
 from ..models import Client
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-
+from rest_framework.parsers import MultiPartParser
 # clients 
 
 class ClientUploadFileView(generics.CreateAPIView):

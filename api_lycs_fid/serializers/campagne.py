@@ -4,6 +4,15 @@ from rest_framework import serializers
 from .user import UserSerializer
 from django.contrib.auth import get_user_model
 
+class LikeSerializer(serializers.Serializer):
+    class Meta:
+        model = Campagne
+        fields = ('id',)  # Incluez uniquement les champs nécessaires
+
+class ViewSerializer(serializers.Serializer):
+    class Meta:
+        model = Campagne
+        fields = ('id',)  # Incluez uniquement les champs nécessaires
 
 class CampagneSerializer(serializers.ModelSerializer):
     # user_id = UserSerializer(read_only=True)
@@ -37,12 +46,23 @@ class CampagneSerializer(serializers.ModelSerializer):
     #verifier si l'utilisateur a vu ou aimer l'article
     def get_is_liked(self, obj):
         user= self.context['request'].user
-        return True if user in obj.likes.all() else False
+        if user.is_authenticated:
+            # Vérifiez s'il a vu la campagne
+            return user in obj.views.all()
+        
+        # Si l'utilisateur est anonyme, retournez False
+        return False
     
     def get_is_viewed(self, obj):
-        user= self.context['request'].user
-        return True if user in obj.views.all() else False
+        user = self.context['request'].user
+
+        # Vérifiez si l'utilisateur est authentifié
+        if user.is_authenticated:
+            # Vérifiez s'il a vu la campagne
+            return user in obj.views.all()
         
+        # Si l'utilisateur est anonyme, retournez False
+        return False
         
       
         

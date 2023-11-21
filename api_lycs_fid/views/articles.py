@@ -8,6 +8,7 @@ class ArticleAPIView(generics.CreateAPIView):
     """
     POST api/v1/Article/
     """
+    
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 
