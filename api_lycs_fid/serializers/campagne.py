@@ -19,7 +19,7 @@ class CampagneSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Campagne
-        fields = ('id','nomCampagne','description','ageCible','sexeCilbe','adresse','dateDebut','dateFin','image','views','likes','author','like_count','view_count','is_liked','is_viewed')
+        fields = ('id','nomCampagne','description','ageCible','sexeCilbe','localisation','dateDebut','dateFin','image','views','likes','author','like_count','view_count','is_liked','is_viewed','codePromo')
         
     def get_author(self, obj):
         if obj.author is not None:
