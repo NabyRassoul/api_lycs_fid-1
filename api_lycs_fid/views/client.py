@@ -26,7 +26,6 @@ class ClientUploadFileView(generics.CreateAPIView):
                 email= row["email"],
                 age= row["age"],
                 sexe= row["sexe"],
-                
                 user_id = user
                 )
             new_file.save()
@@ -41,7 +40,7 @@ def ClientExportFileView(request):
     )
 
     writer = csv.writer(response)
-    row =["firstName","lastName","phone","adresse","email"]
+    row =["firstName","lastName","phone","adresse","email",'age','sexe']
     writer.writerow(row)
     for client in Client.objects:
 
@@ -50,7 +49,9 @@ def ClientExportFileView(request):
             client.lastName,
             client.phone,
             client.adresse,
-            client.email
+            client.email,
+            client.age,
+            client.sexe
         ]
         writer.writerow(row)
 

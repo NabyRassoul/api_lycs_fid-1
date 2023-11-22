@@ -9,7 +9,7 @@ class Partner(User):
     sousGroupe = models.CharField(max_length=100, blank=True)
     ninea  = models.CharField(max_length=100, blank=True)
     # is_active = models.BooleanField(default=False)
-    confirmation_token = models.CharField(max_length=100, null=True, blank=True)
+    # confirmation_token = models.CharField(max_length=100, null=True, blank=True)
     
     def save(self, *args, **kwargs):
         # user.is_active=False
@@ -28,4 +28,4 @@ class Partner(User):
         app_label = "api_lycs_fid"
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.firstName}"

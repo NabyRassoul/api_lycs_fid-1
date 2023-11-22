@@ -17,24 +17,29 @@ class PartnerSerializer(serializers.ModelSerializer):
     #     return data
     
     def create(self, validated_data):
-        # return User.objects.create(**validated_data)
+                # return User.objects.create(**validated_data)
         user = Partner(
             phone=validated_data['phone'],
             firstName=validated_data['firstName'],
             lastName=validated_data['lastName'],
             email=validated_data['email'],
             adresse = validated_data['adresse'],
-            name = validated_data['name'],
-            groupe = validated_data['groupe'],
-            sousGroupe = validated_data['sousGroupe'],
-            ninea = validated_data['ninea'],
-        
-            
-            
-            
             
         )
-        user.user_type='partner'
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+class LoginSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Partner
+        fields = ('email', 'password')
+class TokenSerializer(serializers.Serializer):
+    """
+    This serializer serializes the token data
+    """
+    token = serializers.CharField(max_length=255)
+
+# for upload file 
+class FileUploadSerializer(serializers.Serializer):
+    csv_file = serializers.FileField()

@@ -31,19 +31,20 @@ class LoginView(generics.CreateAPIView):
         is_active = request.data.get('is_active',True)
         password = request.data["password"]
         
-        if not password:
-            return Response(data={"message": "Both identifiant and password are required to connect"},status=400)
+        if not password or not email:
+            return Response(data={"message": "Both identifiant email and password are required to connect"},status=400)
         else:
             try:
-                if email :
-                    user = authenticate(request, email=email, password=password)
-                    print("voici mon user", user)
+                
+                user = authenticate(request, email=email, password=password)
+                print("voici mon user", user)
                 if user is not None:
                     
                     login(request, user)
                     
                     # Redirect to a success page.
                     if user.is_active and is_active:
+                        print('est ce que',is_active)
                         serializer = TokenSerializer(data={"token": jwt_encode_handler(jwt_payload_handler(user))})
                         if serializer.is_valid():
                             token = serializer.data
