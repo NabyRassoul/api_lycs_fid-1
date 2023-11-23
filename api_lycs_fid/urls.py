@@ -8,7 +8,7 @@ from .views.user import *
 from .views.articles import *
 from .views.auth import *
 from .views.client import *
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 
@@ -109,8 +109,9 @@ urlpatterns = [
 ]
 
 
-# if settings.DEBUG: 
-#     urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) 
+if settings.DEBUG: 
+    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) 
+    urlpatterns += staticfiles_urlpatterns()
 
 # urlpatterns = [
 #     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),

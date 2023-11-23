@@ -28,4 +28,4 @@ class Partner(User):
         app_label = "api_lycs_fid"
 
     def __str__(self):
-        return f"{self.firstName}"
+        return f"{self.name}"

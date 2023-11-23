@@ -51,7 +51,7 @@ def PartnerExportFileView(request):
     writer = csv.writer(response)
     row =["firstName","lastName","phone","adresse","email","groupe","sousGroupe","name","ninea"]
     writer.writerow(row)
-    for partner in Partner.objects.filter(archived=False):
+    for partner in Partner.objects:
 
         row =[
             partner.firstName,
@@ -69,7 +69,7 @@ def PartnerExportFileView(request):
 
     return response
 
-class PartnerAPIView(generics.CreateAPIView):
+class PartnerAPIView(generics.ListCreateAPIView):
     """
     POST api/v1/partenaires/
     """
@@ -84,8 +84,8 @@ class PartnerAPIView(generics.CreateAPIView):
             user = serializer.save()
             
             # Générez un jeton de confirmation unique
-            confirmation_token = str(uuid.uuid4())
-            user.confirmation_token = confirmation_token
+            # confirmation_token = str(uuid.uuid4())
+            # user.confirmation_token = confirmation_token
 
             if user.is_active:
                 # Utilisateur actif
@@ -102,8 +102,7 @@ class PartnerAPIView(generics.CreateAPIView):
             email = EmailMessage(subject, message, from_email, recipient_list)
             email.content_subtype = "html" 
             email.send()
-
-            user.save()
+            
 
             return Response(serializer.data, status=201)
         

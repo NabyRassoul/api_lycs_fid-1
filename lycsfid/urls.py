@@ -18,15 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 from .view import  ConfirmEmail
 # from django.contrib.auth import views as auth_views
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
+from django.conf import settings
+from django.conf.urls.static import static
+# from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/',include("api_lycs_fid.urls") ),
     path('api/v1/',include("utils.urls") ),
-    path('confirm/<str:token>/', ConfirmEmail.as_view(), name='confirm-email'),
+    
 ]
 
-urlpatterns += staticfiles_urlpatterns()
+

@@ -9,7 +9,7 @@ class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Partner
         fields =('id','firstName','lastName','phone','adresse','email','name','groupe','sousGroupe','contactRef','ninea', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
+        extra_kwargs = {'password': {'write_only': True}, 'required':False}
     
     # def validate(self, data):
     #     if data['password'] != data['confirm_password']:
@@ -17,13 +17,15 @@ class PartnerSerializer(serializers.ModelSerializer):
     #     return data
     
     def create(self, validated_data):
-                # return User.objects.create(**validated_data)
+        # return User.objects.create(**validated_data)
         user = Partner(
             phone=validated_data['phone'],
             firstName=validated_data['firstName'],
             lastName=validated_data['lastName'],
             email=validated_data['email'],
             adresse = validated_data['adresse'],
+            name = validated_data['name'],
+            ninea = validated_data['ninea'],
             
         )
         user.set_password(validated_data['password'])
@@ -34,6 +36,7 @@ class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = Partner
         fields = ('email', 'password')
+
 class TokenSerializer(serializers.Serializer):
     """
     This serializer serializes the token data

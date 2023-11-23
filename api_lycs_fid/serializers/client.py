@@ -20,7 +20,9 @@ class ClientSerializer(serializers.ModelSerializer):
                 firstName=validated_data['firstName'],
                 lastName=validated_data['lastName'],
                 email=validated_data['email'],
-                adresse = validated_data['adresse']
+                adresse = validated_data['adresse'],
+                age= validated_data["age"],
+                sexe= validated_data["sexe"]
             )
             user.set_password(validated_data['password'])
             user.save()

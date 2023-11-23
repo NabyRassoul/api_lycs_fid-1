@@ -101,6 +101,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media'
             ],
         },
     },
@@ -110,19 +111,19 @@ WSGI_APPLICATION = 'lycsfid.wsgi.application'
 
 
 # SERVER DATABASE
-DATABASES ={
-    'default':dj_database_url.parse(config('DATABASE_URL'))
-}
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'fid_database',
-#         'USER': 'postgres',
-#         'PASSWORD': 'LycsDakar@23',
-#         'HOST': 'localhost',  # Laissez vide pour utiliser le localhost
-#         'PORT': '5432',  # Laissez vide pour utiliser le port par défaut (5432)
-#     }
+# DATABASES ={
+#     'default':dj_database_url.parse(config('DATABASE_URL'))
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'test',
+        'USER': 'postgres',
+        'PASSWORD': 'LycsDakar@23',
+        'HOST': 'localhost',  # Laissez vide pour utiliser le localhost
+        'PORT': '5432',  # Laissez vide pour utiliser le port par défaut (5432)
+    }
+}
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
