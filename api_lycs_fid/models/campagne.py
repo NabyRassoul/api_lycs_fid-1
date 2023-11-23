@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from .partenaire import Partner
 from .user import User
+from django.conf import settings
 
 H= 'homme'
 F= 'femme'
@@ -27,7 +28,7 @@ class Campagne(models.Model):
     sexeCilbe = models.CharField(max_length=250,blank=True,choices=CHOIX_SEXE)
     localisation = models.CharField(max_length=250,blank=True, default='adresse')
     description = models.CharField(max_length=512, blank=True)
-    image = models.ImageField(upload_to='images/',null=True, blank=True)
+    image = models.ImageField(upload_to=settings.MEDIA_ROOT,null=True, blank=True)
     author = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True, related_name='authorCamp')
     views = models.ManyToManyField(User,blank=True, related_name='viewsCamp')
     likes = models.ManyToManyField(User,blank=True, related_name='likesCamp')

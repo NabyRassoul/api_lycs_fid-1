@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from .user import User
+from django.conf import settings
+
 
 H= 'homme'
 F= 'femme'
@@ -26,7 +28,7 @@ class Article(models.Model):
     sexeCilbe = models.CharField(max_length=250,blank=True,choices=CHOIX_SEXE)
     description = models.CharField(max_length=512, blank=True)
     prix = models.IntegerField(blank=True)
-    image = models.ImageField(upload_to='images/',null=True, blank=True)
+    image = models.ImageField(upload_to=settings.MEDIA_ROOT,null=True, blank=True)
     author = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True, related_name='author')
     views = models.ManyToManyField(User,blank=True, related_name='views')
     likes = models.ManyToManyField(User,blank=True, related_name='likes')
