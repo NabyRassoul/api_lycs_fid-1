@@ -1,6 +1,7 @@
 from api_lycs_fid.serializers import *
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
 
 # clients 
 
@@ -11,11 +12,12 @@ class BonReductionAPIView(generics.CreateAPIView):
     
     queryset = BonReduction.objects.all()
     serializer_class = BonReductionSerializer
-
+    parser_classes = (MultiPartParser, FormParser,)
     def post(self, request):
         
         serializer = BonReductionSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
+            serializer.save(image=self.request.data.get('image'))
             serializer.save()
             return Response( serializer.data,status=201)
         return Response(serializer.errors, status=400)
