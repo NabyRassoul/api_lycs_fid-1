@@ -22,7 +22,7 @@ class BonReduction(models.Model):
     ageCible = models.CharField(max_length=50,blank=True, choices=CHOIX_AGE)
     sexeCible = models.CharField(max_length=250,blank=True, choices=CHOIX_SEXE)
     localisation = models.CharField(max_length=250,blank=True,default='adresse')
-    image = models.ImageField(upload_to="myPucturs",null=True, blank=True)
+    image = models.ImageField(upload_to='myPucturs',null=True, blank=True)
     author = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True, related_name='authorBon')
     views = models.ManyToManyField(User,blank=True, related_name='viewsBon')
     likes = models.ManyToManyField(User,blank=True, related_name='likesBon')
