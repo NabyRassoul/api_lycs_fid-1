@@ -21,8 +21,8 @@ class CampagneSerializer(serializers.ModelSerializer):
     author= serializers.SerializerMethodField()
     like_count= serializers.SerializerMethodField()
     view_count= serializers.SerializerMethodField()
-    is_liked= serializers.SerializerMethodField()
-    is_viewed= serializers.SerializerMethodField()
+    # is_liked= serializers.SerializerMethodField()
+    # is_viewed= serializers.SerializerMethodField()
     
    # user_id = serializers.PrimaryKeyRelatedField(queryset=Partner.objects.all(), source='partnerId') 
 
