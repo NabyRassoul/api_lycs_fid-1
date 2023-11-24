@@ -44,25 +44,25 @@ class CampagneSerializer(serializers.ModelSerializer):
     def get_view_count(self, obj):
         return len(obj.views.all())
     #verifier si l'utilisateur a vu ou aimer l'article
-    def get_is_liked(self, obj):
-        user= self.context['request'].user
-        if user.is_authenticated:
-            # Vérifiez s'il a vu la campagne
-            return user in obj.views.all()
+    # def get_is_liked(self, obj):
+    #     user= self.context['request'].user
+    #     if user.is_authenticated:
+    #         # Vérifiez s'il a vu la campagne
+    #         return user in obj.views.all()
         
-        # Si l'utilisateur est anonyme, retournez False
-        return False
+    #     # Si l'utilisateur est anonyme, retournez False
+    #     return False
     
-    def get_is_viewed(self, obj):
-        user = self.context['request'].user
+    # def get_is_viewed(self, obj):
+    #     user = self.context['request'].user
 
-        # Vérifiez si l'utilisateur est authentifié
-        if user.is_authenticated:
-            # Vérifiez s'il a vu la campagne
-            return user in obj.views.all()
+    #     # Vérifiez si l'utilisateur est authentifié
+    #     if user.is_authenticated:
+    #         # Vérifiez s'il a vu la campagne
+    #         return user in obj.views.all()
         
-        # Si l'utilisateur est anonyme, retournez False
-        return False
+    #     # Si l'utilisateur est anonyme, retournez False
+    #     return False
         
       
         

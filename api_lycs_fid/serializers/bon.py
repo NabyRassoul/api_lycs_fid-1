@@ -36,13 +36,13 @@ class BonReductionSerializer(serializers.ModelSerializer):
     def get_view_count(self, obj):
         return len(obj.views.all())
     #verifier si l'utilisateur a vu ou aimer l'article
-    def get_is_liked(self, obj):
-        user= self.context['request'].user
-        return True if user in obj.likes.all() else False
+    # def get_is_liked(self, obj):
+    #     user= self.context['request'].user
+    #     return True if user in obj.likes.all() else False
     
-    def get_is_viewed(self, obj):
-        user= self.context['request'].user
-        return True if user in obj.views.all() else False
+    # def get_is_viewed(self, obj):
+    #     user= self.context['request'].user
+    #     return True if user in obj.views.all() else False
         
         
       
