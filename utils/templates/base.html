@@ -1,0 +1,65 @@
+{% load static %}
+{% include 'dashboard/structure/head.html' %}
+    <!-- Page Wrapper -->
+<div id="wrapper">
+    <!-- Sidebar -->
+    {% include 'dashboard/structure/sidebar.html' %}
+    <!-- End of Sidebar -->
+    <div id="content-wrapper" class="d-flex flex-column">
+    <!-- Content Wrapper -->
+
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Topbar -->
+            {% include 'dashboard/structure/topbar.html' %}
+            <!-- End of Topbar -->
+            <!-- page content  -->
+            {% block content %}
+            {% include 'dashboard/structure/statis.html' %}
+            {% endblock content %}
+            <!-- end of page content -->
+
+        </div>
+
+                <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; LYCS STUDIO 2023</span>
+                </div>
+            </div>
+        </footer>
+    <!-- End of Footer -->
+    </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current    session.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-info" href="/logout/">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'dashboard/structure/foot.html' %}

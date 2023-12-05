@@ -40,25 +40,27 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentification.SessionAuthentification'
     )
 
 }
 # Application definition
 
 INSTALLED_APPS = [
-     'jazzmin',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles', 
     'api_lycs_fid.apps.ApiLycsFidConfig',
     'drf_yasg',
     "corsheaders",
     'rest_framework',
     'rest_framework_simplejwt',
-     'utils',
+    'utils',
+    
 ]
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
@@ -111,19 +113,19 @@ WSGI_APPLICATION = 'lycsfid.wsgi.application'
 
 
 # SERVER DATABASE
-DATABASES ={
-    'default':dj_database_url.parse(config('DATABASE_URL'))
-}
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'test',
-#         'USER': 'postgres',
-#         'PASSWORD': 'LycsDakar@23',
-#         'HOST': 'localhost',  # Laissez vide pour utiliser le localhost
-#         'PORT': '5432',  # Laissez vide pour utiliser le port par défaut (5432)
-#     }
+# DATABASES ={
+#     'default':dj_database_url.parse(config('DATABASE_URL'))
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'test',
+        'USER': 'postgres',
+        'PASSWORD': 'LycsDakar@23',
+        'HOST': 'localhost',  # Laissez vide pour utiliser le localhost
+        'PORT': '5432',  # Laissez vide pour utiliser le port par défaut (5432)
+    }
+}
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -177,15 +179,24 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+AUTH_USER_MODEL = 'api_lycs_fid.User'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-STATIC_URL = 'static/'
-AUTH_USER_MODEL = 'api_lycs_fid.User'
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') #le chemin du serveur pour stocker les fichiers sur l’ordinateur. 
 MEDIA_URL = '/media/'# comment l’URL de référence permettant au navigateur d’accéder aux fichiers via Http.
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'utils/static'),
+    os.path.join(BASE_DIR,'static'),
+]
+STATICFILES_FINDERS = (
+    #will look in the /static/ folder of any apps in your INSTALLED_APPS
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') #le chemin du serveur pour stocker les fichiers sur l’ordinateur. 
+
+
 
 
 # Default primary key field type

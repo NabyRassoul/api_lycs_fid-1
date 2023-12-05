@@ -3,6 +3,14 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
+from django.contrib import admin
+from django.urls import path, include
+# from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from . import views
+
 
 
 
@@ -27,23 +35,18 @@ schema_view = get_schema_view(
    permission_classes=(permissions.AllowAny,),
 )
 
+
 urlpatterns = [
-    # path('par
-    #parametre
-    # path('parametres/', views.ParametreList.as_view()),
-    # path('parametres/user/<int:id>/', views.ParametreByUser.as_view()),
-    # path('profiles/<int:id>/', views.CompanyByIdAPIView.as_view()),
-
-    # path('envoyer-message/', SendTwilioMessageView.as_view(), name='envoyer-message'),
-    
-
-    
-    
-    
-
-       
+    path('', views.BASE, name='BASE'),
+    path('table/', views.Tab, name='Tab'),
+    path('login/', views.sign_in, name='login')
+   
     
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += staticfiles_urlpatterns()
+
 
 
 # if settings.DEBUG: 
