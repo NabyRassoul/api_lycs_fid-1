@@ -9,7 +9,7 @@ class ArticleAPIView(generics.CreateAPIView):
     POST api/v1/Article/
     """
     
-    queryset = Article.objects.all()
+    queryset = Article.objects.filter(archived=False).all()
     serializer_class = ArticleSerializer
     parser_classes = (MultiPartParser, FormParser,)
     def post(self, request):

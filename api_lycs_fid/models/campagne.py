@@ -32,7 +32,7 @@ class Campagne(models.Model):
     author = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True, related_name='authorCamp')
     views = models.ManyToManyField(User,blank=True, related_name='viewsCamp')
     likes = models.ManyToManyField(User,blank=True, related_name='likesCamp')
-    
+    archived = models.BooleanField(default=False)
     class Meta:
         """
         For models split into separate files, specify table name and app name.

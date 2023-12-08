@@ -5,3 +5,4 @@ from .partenaire import*
 from .bon import*
 from .campagne import *
 from .mytest import*
+from .back import *

@@ -8,6 +8,7 @@ class Partner(User):
     groupe = models.CharField(max_length=100, blank=True)
     sousGroupe = models.CharField(max_length=100, blank=True)
     ninea  = models.CharField(max_length=100, blank=True)
+    archived = models.BooleanField(default=False)
     # is_active = models.BooleanField(default=False)
     # confirmation_token = models.CharField(max_length=100, null=True, blank=True)
     

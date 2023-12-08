@@ -74,7 +74,7 @@ class PartnerAPIView(generics.ListCreateAPIView):
     POST api/v1/partenaires/
     """
     
-    queryset= Partner.objects.all()
+    queryset= Partner.objects.filter(archived=False).all()
     serializer_class = PartnerSerializer
 
     def post(self, request, format=None):

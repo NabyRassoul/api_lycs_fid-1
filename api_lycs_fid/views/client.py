@@ -61,7 +61,7 @@ class ClientAPIView(generics.ListCreateAPIView):
     """
     POST api/v1/client/
     """
-    queryset = Client.objects.all()
+    queryset = Client.objects.filter(archived=False).all()
     serializer_class = ClientSerializer
 
     def post(self, request, format=None):

@@ -9,7 +9,7 @@ class CampagneAPIView(generics.CreateAPIView):
     """
     POST api/v1/campagnes/
     """
-    queryset = Campagne.objects.all()
+    queryset = Campagne.objects.filter(archived=False).all()
     serializer_class = CampagneSerializer
     parser_classes = (MultiPartParser, FormParser,)
     def post(self, request):

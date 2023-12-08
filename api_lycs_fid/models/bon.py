@@ -26,6 +26,7 @@ class BonReduction(models.Model):
     author = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True, related_name='authorBon')
     views = models.ManyToManyField(User,blank=True, related_name='viewsBon')
     likes = models.ManyToManyField(User,blank=True, related_name='likesBon')
+    archived = models.BooleanField(default=False)
     class Meta:
         """
         For models split into separate files, specify table name and app name.

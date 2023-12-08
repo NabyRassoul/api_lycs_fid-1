@@ -10,7 +10,7 @@ class BonReductionAPIView(generics.CreateAPIView):
     POST api/v1/bon/
     """
     
-    queryset = BonReduction.objects.all()
+    queryset = BonReduction.objects.filter(archived=False).all()
     serializer_class = BonReductionSerializer
     parser_classes = (MultiPartParser, FormParser,)
     def post(self, request):
