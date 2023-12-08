@@ -20,7 +20,7 @@ CHOIX_AGE= (
 
 
 class Article(models.Model):
-    ageCible = models.CharField(max_length=250,blank=True, choices=CHOIX_AGE)
+    ageCible = models.CharField(max_length=250,blank=True, null=True, choices=CHOIX_AGE)
     sexeCilbe = models.CharField(max_length=250,blank=True,choices=CHOIX_SEXE)
     image = models.ImageField(upload_to='myPucturs',null=True, blank=True)
     author = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True, related_name='author')

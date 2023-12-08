@@ -30,7 +30,7 @@ class ArticleByIdAPIView(generics.CreateAPIView):
     # permission_classes = (
     #     permissions.IsAuthenticated,
     # )
-    queryset = Article.objects.all()
+    queryset = Article.objects.filter(archived=False).all()
     serializer_class = ArticleSerializer
 
     def get(self, request, id, format=None):
