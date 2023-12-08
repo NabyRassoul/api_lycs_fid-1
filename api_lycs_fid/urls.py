@@ -8,6 +8,7 @@ from .views.user import *
 from .views.articles import *
 from .views.auth import *
 from .views.client import *
+# from .views.view import index
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
@@ -88,7 +89,8 @@ urlpatterns = [
     #Bon de Reduction
     path('bon/',views.BonReductionAPIView.as_view()),
     path('bon/<int:id>/',views.BonReductionByIdAPIView.as_view()),
-    
+    # path('notifications/', include('notifications.urls')), # new
+    # path('index/', index, name='index'),
     # path('mytest/',views.MytestViews.as_view()), 
     # path('mytest/<int:id>/',views.ModelByIdAPIView.as_view()),
     

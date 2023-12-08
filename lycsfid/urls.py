@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .view import  ConfirmEmail
+from django.urls import re_path
+
 # from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -28,6 +30,8 @@ urlpatterns = [
     path('api/v1/',include("api_lycs_fid.urls") ),
     path('api-auth/', include('rest_framework.urls')),
     path('',include("utils.urls") ),
+    # path('notifications/', include('notifications.urls')), # new
+    # path('index/', index, name='index'),
     
 ]
 

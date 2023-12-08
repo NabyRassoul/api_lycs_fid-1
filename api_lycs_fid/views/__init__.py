@@ -7,3 +7,4 @@ from .auth import *
 from .campagne import *
 from .mytest import *
 from .likesViews import *
+from .view import *

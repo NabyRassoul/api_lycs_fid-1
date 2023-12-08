@@ -1,3 +1,6 @@
+# script principal
+import django
+django.setup()
 from rest_framework import generics, permissions, status
 from api_lycs_fid.serializers import *
 from rest_framework.views import APIView
@@ -11,8 +14,9 @@ from django.contrib.auth import logout
 from django.http import HttpResponse
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
-from api_lycs_fid.models import User 
+from api_lycs_fid.models import User ,Partner
 from rest_framework.views import APIView
+# from django.contrib.auth.backends import ModelBackend
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -36,7 +40,7 @@ class LoginView(generics.CreateAPIView):
         else:
             try:
                 
-                user = authenticate(request, email=email, password=password, model=User)
+                user = authenticate(request, email=email, password=password)
                 print("voici mon user", user)
                 if user is not None:
                     
@@ -44,7 +48,7 @@ class LoginView(generics.CreateAPIView):
                     
                     # Redirect to a success page.
                     if user.is_active and is_active:
-                        print('est ce que',is_active)
+                        print('Is_active est a: ',is_active)
                         serializer = TokenSerializer(data={"token": jwt_encode_handler(jwt_payload_handler(user))})
                         if serializer.is_valid():
                             token = serializer.data
@@ -76,5 +80,19 @@ class LogoutView(APIView):
       return Response({ 'success': "logged out"})
 
 
-
+# class EmailOrUsernameModelBackend(ModelBackend):
+#     """
+#     Auth backend that allows authentication with either email or username.
+#     """
+#     def authenticate(self, request, email=None, password=None, **kwargs):
+#         try:
+#             user = User.objects.get(email=email)
+#         except User.DoesNotExist:
+#             try:
+#                 user = Partner.objects.get(email=email)
+#             except Partner.DoesNotExist:
+#                 return None
+#         if user.check_password(password) and self.user_can_authenticate(user):
+#             return user
+#         return None
 

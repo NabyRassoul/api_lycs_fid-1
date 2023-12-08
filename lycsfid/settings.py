@@ -17,7 +17,7 @@ import os
 from decouple import config
 #importation database-url
 import dj_database_url
-
+# from api_lycs_fid.views.auth import EmailOrUsernameModelBackend
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,11 +40,16 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentification.SessionAuthentification'
+        'rest_framework.authentication.SessionAuthentication'
     )
 
 }
-# Application definition
+# AUTHENTICATION_BACKENDS = [
+#     'api_lycs_fid.views.auth.EmailOrUsernameModelBackend',
+#     'django.contrib.auth.backends.ModelBackend',
+#     # ... autres backends d'authentification
+# ]
+# # Application definition
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -57,9 +62,11 @@ INSTALLED_APPS = [
     'api_lycs_fid.apps.ApiLycsFidConfig',
     'drf_yasg',
     "corsheaders",
+    # "notifications",
     'rest_framework',
     'rest_framework_simplejwt',
     'utils',
+    # "channels"
     
 ]
 SIMPLE_JWT = {
@@ -108,8 +115,29 @@ TEMPLATES = [
         },
     },
 ]
+# new
+# SIMPLE_NOTIFICATION_SETTINGS = {
+#     'receive_handler_path': 'utils.notification_handler',
+# }
 
 WSGI_APPLICATION = 'lycsfid.wsgi.application'
+ASGI_APPLICATION = "lycsfid.asgi.application"
+# settings.py
+
+# settings.py
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels.layers.InMemoryChannelLayer',
+#     },
+# }
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("127.0.0.1", 6379)],
+#         },
+#     },
+# }
 
 
 # SERVER DATABASE
@@ -119,7 +147,7 @@ WSGI_APPLICATION = 'lycsfid.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'test',
+        'NAME': 'webskoet',
         'USER': 'postgres',
         'PASSWORD': 'LycsDakar@23',
         'HOST': 'localhost',  # Laissez vide pour utiliser le localhost

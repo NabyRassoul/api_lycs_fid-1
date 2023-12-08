@@ -2,7 +2,8 @@ from api_lycs_fid.serializers import *
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
-# clients 
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 class ArticleAPIView(generics.CreateAPIView):
     """
@@ -18,6 +19,13 @@ class ArticleAPIView(generics.CreateAPIView):
         if serializer.is_valid():
             serializer.save()
             serializer.save(image=self.request.data.get('image'))
+            
+            # Trigger notification
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                "notifications_group",
+                {"type": "notify.user", "message": "New article posted!"},
+            )
             return Response( serializer.data,status=201)
         return Response(serializer.errors, status=400)
           
