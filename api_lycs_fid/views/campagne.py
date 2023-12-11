@@ -9,7 +9,7 @@ class CampagneAPIView(generics.CreateAPIView):
     """
     POST api/v1/campagnes/
     """
-    queryset = Campagne.objects.filter(archived=False).all()
+    queryset = Campagne.objects.filter(archived=False)
     serializer_class = CampagneSerializer
     parser_classes = (MultiPartParser, FormParser,)
     def post(self, request):
@@ -22,7 +22,7 @@ class CampagneAPIView(generics.CreateAPIView):
         return Response(serializer.errors, status=400)
         
     def get(self, request, format=None):
-        items = Campagne.objects.order_by('pk')
+        items = Campagne.objects.filter(archived=False).order_by('pk')
         serializer = CampagneSerializer(items, many=True, context={'request':request})
         return Response({"count": items.count(),"data":serializer.data})
 
@@ -31,12 +31,12 @@ class CampagneByIdAPIView(generics.CreateAPIView):
     # permission_classes = (
     #     permissions.IsAuthenticated,
     # )
-    queryset = Campagne.objects.all()
+    queryset = Campagne.objects.filter(archived=False)
     serializer_class = CampagneSerializer
 
     def get(self, request, id, format=None):
         try:
-            item = Campagne.objects.get(pk=id)
+            item = Campagne.objects.filter(archived=False).get(pk=id)
             serializer = CampagneSerializer(item)
             return Response(serializer.data)
         except Campagne.DoesNotExist:
@@ -47,7 +47,7 @@ class CampagneByIdAPIView(generics.CreateAPIView):
 
     def put(self, request, id, format=None):
         try:
-            item = Campagne.objects.get(pk=id)
+            item = Campagne.objects.filter(archived=False).get(pk=id)
         except Campagne.DoesNotExist:
             return Response({
                 "status": "failure",
@@ -63,7 +63,7 @@ class CampagneByIdAPIView(generics.CreateAPIView):
 
     def delete(self, request, *args, **kwargs):
         try:
-            item = Campagne.objects.get(id=kwargs["id"])
+            item = Campagne.objects.filter(archived=False).get(id=kwargs["id"])
         except Campagne.DoesNotExist:
             return Response({
                 "status": "failure",

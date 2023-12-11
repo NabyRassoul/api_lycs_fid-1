@@ -61,7 +61,7 @@ class ClientAPIView(generics.ListCreateAPIView):
     """
     POST api/v1/client/
     """
-    queryset = Client.objects.filter(archived=False).all()
+    queryset = Client.objects.filter(archived=False)
     serializer_class = ClientSerializer
 
     def post(self, request, format=None):
@@ -72,7 +72,7 @@ class ClientAPIView(generics.ListCreateAPIView):
         return Response(serializer.errors, status=400)
 
     def get(self, request, format=None):
-        items = Client.objects.all()
+        items = Client.objects.filter(archived=False)
         serializer = ClientSerializer(items, many=True)
         return Response({"count": items.count(),"data":serializer.data})
 
@@ -82,7 +82,7 @@ class ClientByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = (
     #     permissions.IsAuthenticated,
     # )
-    queryset = Client.objects.all()
+    queryset = Client.objects.filter(archived=False)
     serializer_class = ClientSerializer
 
     def get(self, request, id, format=None):
@@ -98,7 +98,7 @@ class ClientByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def put(self, request, id, format=None):
         try:
-            item = Client.objects.get(pk=id)
+            item = Client.objects.filter(archived=False).get(pk=id)
         except Client.DoesNotExist:
             return Response({
                 "status": "failure",
@@ -114,7 +114,7 @@ class ClientByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
     # def delete(self, request, id, format=None):
     def delete(self, request, *args, **kwargs):
         try:
-            item = Client.objects.get(id=kwargs["id"])
+            item = Client.objects.filter(archived=False).get(id=kwargs["id"])
         except Client.DoesNotExist:
             return Response({
                 "status": "failure",
@@ -126,7 +126,7 @@ class ClientByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ClientByUser(generics.RetrieveAPIView):
-    queryset = Client.objects.all()
+    queryset = Client.objects.filter(archived=False)
     serializer_class = ClientSerializer
     # permission_classes = []
 

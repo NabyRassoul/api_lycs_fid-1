@@ -10,7 +10,7 @@ class BonReductionAPIView(generics.CreateAPIView):
     POST api/v1/bon/
     """
     
-    queryset = BonReduction.objects.filter(archived=False).all()
+    queryset = BonReduction.objects.filter(archived=False)
     serializer_class = BonReductionSerializer
     parser_classes = (MultiPartParser, FormParser,)
     def post(self, request):
@@ -23,7 +23,7 @@ class BonReductionAPIView(generics.CreateAPIView):
         return Response(serializer.errors, status=400)
         
     def get(self, request, format=None):
-        items = BonReduction.objects.order_by('pk')
+        items = BonReduction.objects.filter(archived=False).order_by('pk')
         serializer = BonReductionSerializer(items, many=True, context={'request':request})
         return Response({"count": items.count(),"data":serializer.data})
 
@@ -32,12 +32,12 @@ class BonReductionByIdAPIView(generics.CreateAPIView):
     # permission_classes = (
     #     permissions.IsAuthenticated,
     # )
-    queryset = BonReduction.objects.all()
+    queryset = BonReduction.objects.filter(archived=False)
     serializer_class = BonReductionSerializer
 
     def get(self, request, id, format=None):
         try:
-            item = BonReduction.objects.get(pk=id)
+            item = BonReduction.objects.filter(archived=False).get(pk=id)
             serializer = BonReductionSerializer(item)
             return Response(serializer.data)
         except BonReduction.DoesNotExist:
@@ -48,7 +48,7 @@ class BonReductionByIdAPIView(generics.CreateAPIView):
 
     def put(self, request, id, format=None):
         try:
-            item = BonReduction.objects.get(pk=id)
+            item = BonReduction.objects.filter(archived=False).get(pk=id)
         except BonReduction.DoesNotExist:
             return Response({
                 "status": "failure",
@@ -64,7 +64,7 @@ class BonReductionByIdAPIView(generics.CreateAPIView):
 
     def delete(self, request, *args, **kwargs):
         try:
-            item = BonReduction.objects.get(id=kwargs["id"])
+            item = BonReduction.objects.filter(archived=False).get(id=kwargs["id"])
         except BonReduction.DoesNotExist:
             return Response({
                 "status": "failure",
