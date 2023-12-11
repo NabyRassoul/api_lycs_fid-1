@@ -10,7 +10,7 @@ class ArticleAPIView(generics.CreateAPIView):
     POST api/v1/Article/
     """
     
-    queryset = Article.objects.all()
+    queryset = Article.objects.filter(archived=False)
     serializer_class = ArticleSerializer
     parser_classes = (MultiPartParser, FormParser,)
     def post(self, request):
@@ -30,7 +30,7 @@ class ArticleAPIView(generics.CreateAPIView):
         return Response(serializer.errors, status=400)
           
     def get(self, request, format=None):
-        items = Article.objects.order_by('pk')
+        items = Article.objects.filter(archived=False).order_by('pk')
         serializer = ArticleSerializer(items, many=True)
         return Response({"count": items.count(),"data":serializer.data})
 
@@ -43,7 +43,7 @@ class ArticleByIdAPIView(generics.CreateAPIView):
 
     def get(self, request, id, format=None):
         try:
-            item = Article.objects.get(pk=id)
+            item = Article.objects.filter(archived=False).get(pk=id)
             serializer = ArticleSerializer(item)
             return Response(serializer.data)
         except Article.DoesNotExist:
@@ -54,7 +54,7 @@ class ArticleByIdAPIView(generics.CreateAPIView):
 
     def put(self, request, id, format=None):
         try:
-            item = Article.objects.get(pk=id)
+            item = Article.objects.filter(archived=False).get(pk=id)
         except Article.DoesNotExist:
             return Response({
                 "status": "failure",
@@ -69,7 +69,7 @@ class ArticleByIdAPIView(generics.CreateAPIView):
 
     def delete(self, request, *args, **kwargs):
         try:
-            item = Article.objects.get(id=kwargs["id"])
+            item = Article.objects.filter(archived=False).get(id=kwargs["id"])
         except Article.DoesNotExist:
             return Response({
                 "status": "failure",

@@ -74,7 +74,7 @@ class PartnerAPIView(generics.ListCreateAPIView):
     POST api/v1/partenaires/
     """
     
-    queryset= Partner.objects.all()
+    queryset= Partner.objects.filter(archived=False)
     serializer_class = PartnerSerializer
 
     def post(self, request, format=None):
@@ -109,7 +109,7 @@ class PartnerAPIView(generics.ListCreateAPIView):
         return Response(serializer.errors, status=400)
 
     def get(self, request, format=None):
-        items = Partner.objects.all()
+        items = Partner.objects.filter(archived=False)
         serializer = PartnerSerializer(items, many=True)
         return Response({"count": items.count(),"data":serializer.data})
 
@@ -119,7 +119,7 @@ class PartnerByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = (
     #     permissions.IsAuthenticated,
     # )
-    queryset = Partner.objects.all()
+    queryset = Partner.objects.filter(archived=False)
     serializer_class = PartnerSerializer
     
 
@@ -136,7 +136,7 @@ class PartnerByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
             
     def put(self, request, id, format=None):
         try:
-            item = Partner.objects.get(pk=id)
+            item = Partner.objects.filter(archived=False).get(pk=id)
         except Partner.DoesNotExist:
             return Response({
                 "status": "failure",
@@ -153,7 +153,7 @@ class PartnerByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
     # def delete(self, request, id, format=None):
     def delete(self, request, *args, **kwargs):
         try:
-            item = Partner.objects.get(id=kwargs["id"])
+            item = Partner.objects.filter(archived=False).get(id=kwargs["id"])
         except Partner.DoesNotExist:
             return Response({
                 "status": "failure",
@@ -185,7 +185,7 @@ class ComptIsActivate(generics.RetrieveAPIView):
     serializer_class = PartnerSerializer
     def get(self, request, id, format=None):
         try:
-            partner = Partner.objects.get(pk=id)
+            partner = Partner.objects.filter(archived=False).get(pk=id)
             partner.is_active = True
             partner.save()
            
