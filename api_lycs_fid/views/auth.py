@@ -36,7 +36,7 @@ class LoginView(generics.CreateAPIView):
         else:
             try:
                 
-                user = authenticate(request, email=email, password=password, model=User)
+                user = authenticate(request, email=email, password=password)
                 print("voici mon user", user)
                 if user is not None:
                     

@@ -1,5 +1,5 @@
 from django.db import models
-from api_lycs_fid.models import User, user
+from api_lycs_fid.models import User
 
 
 class Partner(User):
@@ -17,7 +17,7 @@ class Partner(User):
         if not self.id:
             # Si l'utilisateur est nouvellement créé, utilisez set_password pour hacher le mot de passe
             self.set_password(self.password)
-            self.is_active = False
+            # self.is_active = False
 
         super(Partner, self).save(*args, **kwargs)
     

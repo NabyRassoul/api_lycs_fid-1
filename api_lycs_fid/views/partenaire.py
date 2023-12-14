@@ -85,16 +85,10 @@ class PartnerAPIView(generics.ListCreateAPIView):
             
             # Générez un jeton de confirmation unique
             # confirmation_token = str(uuid.uuid4())
-            # user.confirmation_token = confirmation_token
-
-            if user.is_active:
-                # Utilisateur actif
-                subject = 'Validation du compte'
-                message = f"Bienvenue chez nous {user.firstName} {user.lastName} Félicitations, votre compte a été activé"
-            else:
+            # user.confirmation_token = confirmation_toke
                 # Utilisateur non actif
-                subject = 'Confirmez votre inscription'
-                message = f"Bienvenue chez nous {user.firstName} {user.lastName} Votre inscription est en attente de validation"
+            subject = 'Confirmez votre inscription'
+            message = f"Bienvenue chez nous {user.firstName} {user.lastName} Votre inscription est en attente de validation"
 
             # EMAIL MESSAGE
             recipient_list = [user.email]

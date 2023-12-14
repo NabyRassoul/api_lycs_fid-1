@@ -9,7 +9,7 @@ class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Partner
         fields =('id','firstName','lastName','phone','adresse','email','name','groupe','sousGroupe','contactRef','ninea', 'password')
-        extra_kwargs = {'password': {'write_only': True}, 'required':False}
+        extra_kwargs = {'password': {'write_only': True}}
     
     # def validate(self, data):
     #     if data['password'] != data['confirm_password']:
@@ -26,23 +26,12 @@ class PartnerSerializer(serializers.ModelSerializer):
             adresse = validated_data['adresse'],
             name = validated_data['name'],
             ninea = validated_data['ninea'],
+            groupe = validated_data['groupe'],
+            sousGroupe = validated_data['sousGroupe'],
+            contactRef = validated_data['contactRef'],
+            
             
         )
         user.set_password(validated_data['password'])
         user.save()
         return user
-
-class LoginSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Partner
-        fields = ('email', 'password')
-
-class TokenSerializer(serializers.Serializer):
-    """
-    This serializer serializes the token data
-    """
-    token = serializers.CharField(max_length=255)
-
-# for upload file 
-class FileUploadSerializer(serializers.Serializer):
-    csv_file = serializers.FileField()

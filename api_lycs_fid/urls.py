@@ -42,6 +42,7 @@ urlpatterns = [
 
     # authentification 
     path('login/', views.LoginView.as_view()),
+    
     # path('partners/login/', views.PartnerLoginView.as_view(), name='login'),
 
     path('logout/', views.LogoutView.as_view()),

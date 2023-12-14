@@ -28,17 +28,3 @@ class ClientSerializer(serializers.ModelSerializer):
             user.save()
             return user
 
-class LoginSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Client
-        fields = ('email', 'password')
-
-class TokenSerializer(serializers.Serializer):
-    """
-    This serializer serializes the token data
-    """
-    token = serializers.CharField(max_length=255)
-
-# for upload file 
-class FileUploadSerializer(serializers.Serializer):
-    csv_file = serializers.FileField()
