@@ -1,6 +1,6 @@
 # # Create your views here.
 from django.shortcuts import render
-from .forms import LoginForm
+from ..forms import LoginForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 # from django.shortcuts import red

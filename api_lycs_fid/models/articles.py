@@ -4,39 +4,31 @@ from .user import User
 from django.conf import settings
 from django.contrib.auth import get_user_model
 
-H= 'homme'
-F= 'femme'
-ADULTE= 'adulte'
-ENFANT= 'enfant'
 
 CHOIX_SEXE = (
-        ('H', 'Homme'),
-        ('F', 'Femme'),
+        ('M', 'Masculin'),
+        ('F', 'Féminin'),
     )
 CHOIX_AGE= (
-    ('ADULTE','Adulte'),
-    ('ENFANT','Enfant')
+    ('0-10 ans', '0 à 10 ans'),
+    ('10-20 ans', '10 à 20 ans'),
+    ('20-40 ans', '20 à 40 ans'),
+    ('40-60 ans', '40 à 60 ans'),
+    ('60plus', '60 ans et plus'),
 )
 
 
-# class NotificationsTypes(Enum):
-    
-    # NEW_ARTICLE = 'NEW_ARTICLE'
-    # ARTICLE_CANCELLED = 'ARTICLE_CANCELLED'
+
 
 class Article(models.Model):
-    dateDebut = models.DateTimeField(default=timezone.now)
-    dateFin = models.DateTimeField(default=timezone.now)
     nomArticle = models.CharField(max_length=250)
-    localisation = models.CharField(max_length=250,default='adresse')
-    ageCible = models.CharField(max_length=250,blank=True, choices=CHOIX_AGE)
-    sexeCilbe = models.CharField(max_length=250,blank=True,choices=CHOIX_SEXE)
-    description = models.CharField(max_length=512, blank=True)
-    prix = models.IntegerField(blank=True)
+    ageCible = models.CharField(max_length=20,blank=True, choices=CHOIX_AGE)
+    sexeCilbe = models.CharField(max_length=10,blank=True,choices=CHOIX_SEXE)
     image = models.ImageField(upload_to='myPucturs',null=True, blank=True)
     author = models.ForeignKey(User,on_delete=models.CASCADE,null=True, blank=True, related_name='author')
     views = models.ManyToManyField(User,blank=True, related_name='views')
     likes = models.ManyToManyField(User,blank=True, related_name='likes')
+    archived = models.BooleanField(default=False)
     class Meta:
         """
         For models split into separate files, specify table name and app name.

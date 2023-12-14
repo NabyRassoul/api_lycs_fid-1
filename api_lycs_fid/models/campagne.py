@@ -4,20 +4,17 @@ from .partenaire import Partner
 from .user import User
 from django.conf import settings
 
-H= 'homme'
-F= 'femme'
-ADULTE= 'adulte'
-ENFANT= 'enfant'
-
 CHOIX_SEXE = (
-        ('H', 'Homme'),
-        ('F', 'Femme'),
+        ('M', 'Masculin'),
+        ('F', 'Féminin'),
     )
 CHOIX_AGE= (
-    ('ADULTE','Adulte'),
-    ('ENFANT','Enfant')
+    ('0-10 ans', '0 à 10 ans'),
+    ('10-20 ans', '10 à 20 ans'),
+    ('20-40 ans', '20 à 40 ans'),
+    ('40-60 ans', '40 à 60 ans'),
+    ('60plus', '60 ans et plus'),
 )
-
 
 class Campagne(models.Model):
     dateDebut = models.DateTimeField(default=timezone.now)
@@ -32,6 +29,7 @@ class Campagne(models.Model):
     author = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True, related_name='authorCamp')
     views = models.ManyToManyField(User,blank=True, related_name='viewsCamp')
     likes = models.ManyToManyField(User,blank=True, related_name='likesCamp')
+    archived = models.BooleanField(default=False)
     
     class Meta:
         """

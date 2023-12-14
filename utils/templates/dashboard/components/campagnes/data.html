@@ -1,0 +1,83 @@
+
+{% load static %}
+{% include 'dashboard/components/campagnes/ajout.html' %}
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <div>
+        <h6 class="m-0 font-weight-bold text-primary">Liste des campagnes</h6>
+    </div>
+    <!-- Button trigger modal -->
+    <!-- <div class="float-right">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutcampagne">
+            Ajouter
+        </button>
+    </div> -->
+  </div>
+
+  <style>
+    .image-cell img {
+        max-width: 60px; /* Ajustez la largeur maximale selon vos besoins */
+        max-height: 60px;
+        border-radius: 50% 50%;
+        max-width: 100%; /* Assurez-vous que l'image n'est pas plus large que la cellule */
+        height: auto; / /* Ajustez la hauteur maximale selon vos besoins */
+    }
+    thead {
+        background: rgb(235, 96, 156);
+        background: radial-gradient(circle, rgb(241, 151, 190) 0%, rgb(51, 137, 235) 100%); /* Couleur de fond de l'en-tête */
+        
+        position: sticky;
+        top: 0; /* Fixez l'en-tête en haut de la fenêtre lors du défilement */
+        left: 0;
+        z-index: 100; /* Assurez-vous que l'en-tête est au-dessus du contenu défilant */
+    }
+    th{
+        color: white;
+    }
+</style>
+  <div class="card-body">
+      <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                    <th>Campage</th>
+                    <th>Date debut</th>
+                    <th>Date fin</th>
+                    <th>Code Promo</th>
+                    <th>Description</th>
+                    <th>Age</th>
+                    <th>Sexe</th>
+                    <th>Adresse</th>
+                    <th>Auteur</th>
+
+
+                    <!-- <th class="text-center">ACTION</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                  {% for campagne in campagnes %}
+                  <tr>
+                      <td class="image-cell" >
+                        <img src="{{ campagne.image.url }}" alt="Description de l'image">
+                        {{campagne.nomCampagne}}</td>
+                      <td>{{campagne.dateDebut|date:"d F Y"}}</td>
+                      <td>{{campagne.dateFin|date:"d F Y"}}</td>
+                      <td>{{campagne.codePromo}}</td>
+                      <td>{{campagne.description}}</td>
+
+                      <td>{{campagne.ageCible}}</td>
+                      <td>{{campagne.sexeCilbe}}</td>
+                      <td>{{campagne.localisation}}</td>
+                   
+                      <td>{{campagne.author}}</td>
+
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
+
+

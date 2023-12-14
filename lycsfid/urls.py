@@ -30,8 +30,7 @@ urlpatterns = [
     path('api/v1/',include("api_lycs_fid.urls") ),
     path('api-auth/', include('rest_framework.urls')),
     path('',include("utils.urls") ),
-    # path('notifications/', include('notifications.urls')), # new
-    # path('index/', index, name='index'),
+   
     
 ]
 

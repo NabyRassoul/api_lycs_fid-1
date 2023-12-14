@@ -1,8 +1,8 @@
 from django.db import models
 from api_lycs_fid.models import User
 CHOIX_SEXE = (
-        ('H', 'Homme'),
-        ('F', 'Femme'),
+         ('M', 'Masculin'),
+        ('F', 'Féminin'),
     )
 CHOIX_AGE= (
     ('ADULTE','Adulte'),
@@ -11,6 +11,7 @@ CHOIX_AGE= (
 class Client(User):
     age = models.CharField(max_length=250,blank=True, choices=CHOIX_AGE)
     sexe = models.CharField(max_length=250,blank=True, choices=CHOIX_SEXE)
+    archived = models.BooleanField(default=False)
    
     def save(self, *args, **kwargs):
         if not self.id:

@@ -1,0 +1,78 @@
+
+{% load static %}
+{% include 'dashboard/components/partner/ajout.html' %}
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <div>
+        <h6 class="m-0 font-weight-bold text-primary">Liste des partners</h6>
+    </div>
+    <!-- Button trigger modal -->
+    <!-- <div class="float-right">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutpartner">
+            Ajouter
+        </button>
+    </div> -->
+  </div>
+
+  <style>
+   
+    thead {
+        background: rgb(235, 96, 156);
+        background: radial-gradient(circle, rgb(241, 151, 190) 0%, rgb(51, 137, 235) 100%); /* Couleur de fond de l'en-tête */
+        
+        position: sticky;
+        top: 0; /* Fixez l'en-tête en haut de la fenêtre lors du défilement */
+        left: 0;
+        z-index: 100; /* Assurez-vous que l'en-tête est au-dessus du contenu défilant */
+    }
+    th{
+        color: white;
+    }
+</style>
+  <div class="card-body">
+      <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>email</th>
+                    <th>Telepohne</th>
+                    <th>Adresse</th>
+                    <th>Partenaires</th>
+                    <th>Contact Ref</th>
+                    <th>Groupe</th>
+                    <th>Sous groupe</th>
+                    <th>Ninea</th>
+
+
+                    <!-- <th class="text-center">ACTION</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                  {% for partner in partners %}
+                  <tr>
+                      <td>{{partner.lastName}}</td>
+                      <td>{{partner.firstName}}</td>
+                      <td>{{partner.email}}</td>
+                      <td>{{partner.phone}}</td>
+                      <td>{{partner.adresse}}</td>
+                      <td>{{partner.name}}</td>
+                      <td>{{partner.contactRef}}</td>
+                      <td>{{partner.groupe}}</td>
+                      <td>{{partner.sousGroupe}}</td>
+                      <td>{{partner.ninea}}</td>
+
+
+                      
+
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
+
+

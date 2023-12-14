@@ -89,6 +89,7 @@ urlpatterns = [
     #Bon de Reduction
     path('bon/',views.BonReductionAPIView.as_view()),
     path('bon/<int:id>/',views.BonReductionByIdAPIView.as_view()),
+    path('signal-messages/', views.SignalMessageView.as_view(), name='signal-messages'),
     # path('notifications/', include('notifications.urls')), # new
     # path('index/', index, name='index'),
     # path('mytest/',views.MytestViews.as_view()), 

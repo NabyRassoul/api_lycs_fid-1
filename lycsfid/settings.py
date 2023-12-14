@@ -147,7 +147,7 @@ ASGI_APPLICATION = "lycsfid.asgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'webskoet',
+        'NAME': 'signales',
         'USER': 'postgres',
         'PASSWORD': 'LycsDakar@23',
         'HOST': 'localhost',  # Laissez vide pour utiliser le localhost
