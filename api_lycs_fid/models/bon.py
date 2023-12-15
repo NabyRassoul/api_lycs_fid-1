@@ -3,12 +3,15 @@ from django.utils import timezone
 from .user import User
 from django.conf import settings
 CHOIX_SEXE = (
-        ('H', 'Homme'),
-        ('F', 'Femme'),
+        ('M', 'Masculin'),
+        ('F', 'Féminin'),
     )
 CHOIX_AGE= (
-    ('Adulte','Adulte'),
-    ('Enfant','Enfant')
+    ('0-10 ans', '0 à 10 ans'),
+    ('10-20 ans', '10 à 20 ans'),
+    ('20-40 ans', '20 à 40 ans'),
+    ('40-60 ans', '40 à 60 ans'),
+    ('60plus ans', '60 ans et plus'),
 )
 
 class BonReduction(models.Model):

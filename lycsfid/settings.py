@@ -17,7 +17,7 @@ import os
 from decouple import config
 #importation database-url
 import dj_database_url
-
+# from api_lycs_fid.views.auth import EmailOrUsernameModelBackend
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,25 +40,34 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
     )
 
 }
-# Application definition
+# AUTHENTICATION_BACKENDS = [
+#     'api_lycs_fid.views.auth.EmailOrUsernameModelBackend',
+#     'django.contrib.auth.backends.ModelBackend',
+#     # ... autres backends d'authentification
+# ]
+# # Application definition
 
 INSTALLED_APPS = [
-     'jazzmin',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles', 
     'api_lycs_fid.apps.ApiLycsFidConfig',
     'drf_yasg',
     "corsheaders",
+    # "notifications",
     'rest_framework',
     'rest_framework_simplejwt',
-     'utils',
+    'utils',
+    # "channels"
+    
 ]
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
@@ -106,8 +115,29 @@ TEMPLATES = [
         },
     },
 ]
+# new
+# SIMPLE_NOTIFICATION_SETTINGS = {
+#     'receive_handler_path': 'utils.notification_handler',
+# }
 
 WSGI_APPLICATION = 'lycsfid.wsgi.application'
+ASGI_APPLICATION = "lycsfid.asgi.application"
+# settings.py
+
+# settings.py
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels.layers.InMemoryChannelLayer',
+#     },
+# }
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("127.0.0.1", 6379)],
+#         },
+#     },
+# }
 
 
 # SERVER DATABASE
@@ -117,7 +147,7 @@ DATABASES ={
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'test',
+#         'NAME': 'signales',
 #         'USER': 'postgres',
 #         'PASSWORD': 'LycsDakar@23',
 #         'HOST': 'localhost',  # Laissez vide pour utiliser le localhost
@@ -177,15 +207,24 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+AUTH_USER_MODEL = 'api_lycs_fid.User'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-STATIC_URL = 'static/'
-AUTH_USER_MODEL = 'api_lycs_fid.User'
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') #le chemin du serveur pour stocker les fichiers sur l’ordinateur. 
 MEDIA_URL = '/media/'# comment l’URL de référence permettant au navigateur d’accéder aux fichiers via Http.
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'utils/static'),
+    os.path.join(BASE_DIR,'static'),
+]
+STATICFILES_FINDERS = (
+    #will look in the /static/ folder of any apps in your INSTALLED_APPS
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') #le chemin du serveur pour stocker les fichiers sur l’ordinateur. 
+
+
 
 
 # Default primary key field type

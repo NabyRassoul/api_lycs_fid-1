@@ -1,8 +1,8 @@
 from django.db import models
 from api_lycs_fid.models import User
 CHOIX_SEXE = (
-        ('H', 'Homme'),
-        ('F', 'Femme'),
+         ('M', 'Masculin'),
+        ('F', 'Féminin'),
     )
 CHOIX_AGE= (
     ('ADULTE','Adulte'),
@@ -12,6 +12,7 @@ class Client(User):
     age = models.CharField(max_length=250,blank=True, choices=CHOIX_AGE)
     sexe = models.CharField(max_length=250,blank=True, choices=CHOIX_SEXE)
     archived = models.BooleanField(default=False)
+   
     def save(self, *args, **kwargs):
         if not self.id:
             # Si l'utilisateur est nouvellement créé, utilisez set_password pour hacher le mot de passe

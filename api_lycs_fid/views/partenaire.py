@@ -83,11 +83,7 @@ class PartnerAPIView(generics.ListCreateAPIView):
         if serializer.is_valid():
             user = serializer.save()
             
-            # Générez un jeton de confirmation unique
-            # confirmation_token = str(uuid.uuid4())
-            # user.confirmation_token = confirmation_toke
-                # Utilisateur non actif
-            subject = 'Confirmez votre inscription'
+            subject = 'Confirmation de votre inscription'
             message = f"Bienvenue chez nous {user.firstName} {user.lastName} Votre inscription est en attente de validation"
 
             # EMAIL MESSAGE
@@ -103,7 +99,7 @@ class PartnerAPIView(generics.ListCreateAPIView):
         return Response(serializer.errors, status=400)
 
     def get(self, request, format=None):
-        items = Partner.objects.all()
+        items = Partner.objects.filter(archived=False)
         serializer = PartnerSerializer(items, many=True)
         return Response({"count": items.count(),"data":serializer.data})
 

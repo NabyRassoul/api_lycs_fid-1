@@ -2,10 +2,13 @@ from django.urls import re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-
-
-
-
+from django.contrib import admin
+from django.urls import path, include
+# from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from . import views
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static 
@@ -27,23 +30,32 @@ schema_view = get_schema_view(
    permission_classes=(permissions.AllowAny,),
 )
 
+
 urlpatterns = [
-    # path('par
-    #parametre
-    # path('parametres/', views.ParametreList.as_view()),
-    # path('parametres/user/<int:id>/', views.ParametreByUser.as_view()),
-    # path('profiles/<int:id>/', views.CompanyByIdAPIView.as_view()),
+    path('', views.BASE, name='BASE'),
+    path('table/', views.Tab, name='Tab'),
+    path('login/', views.sign_in, name='login'),
+    path("articles/", views.ArticleView.as_view()),
+    path("articles/delete/<int:id>/",views.DeleteArticleByIdView.as_view()),
+    path("bons/", views.BonView.as_view()),
+    path("bons/delete/<int:id>/",views.DeleteBonByIdView.as_view()),
+    path("campagnes/", views.CampagneView.as_view()),
+    path("campagnes/delete/<int:id>/",views.DeleteCampagneByIdView.as_view()),
+    path("clients/", views.ClientView.as_view()),
+    path("clients/delete/<int:id>/",views.DeleteClientByIdView.as_view()),  
+    path("partners/", views.PartnerView.as_view()),
+    path("partners/delete/<int:id>/",views.DeletePartnerByIdView.as_view()),        
+    path("users/", views.UserView.as_view()),
+    path("users/delete/<int:id>/",views.DeleteUserByIdView.as_view()),        
 
-    # path('envoyer-message/', SendTwilioMessageView.as_view(), name='envoyer-message'),
-    
 
-    
-    
-    
-
-       
+   
     
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += staticfiles_urlpatterns()
+
 
 
 # if settings.DEBUG: 

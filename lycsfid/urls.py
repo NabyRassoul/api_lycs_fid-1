@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .view import  ConfirmEmail
+from django.urls import re_path
+
 # from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -26,9 +28,13 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/',include("api_lycs_fid.urls") ),
-    path('api/v1/',include("utils.urls") ),
+    path('api-auth/', include('rest_framework.urls')),
+    path('',include("utils.urls") ),
+   
     
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 urlpatterns += staticfiles_urlpatterns()
