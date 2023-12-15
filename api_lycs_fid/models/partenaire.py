@@ -1,5 +1,5 @@
 from django.db import models
-from api_lycs_fid.models import User, user
+from api_lycs_fid.models import User
 
 
 class Partner(User):
@@ -19,8 +19,6 @@ class Partner(User):
             self.is_active = False
 
         super(Partner, self).save(*args, **kwargs)
-    
-        
     
     class Meta:
   

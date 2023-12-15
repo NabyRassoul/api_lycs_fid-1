@@ -28,9 +28,7 @@ class LoginView(generics.CreateAPIView):
     POST api/v1/login/
     """
     queryset = User.objects.all()
-    # queryset= Partner.objects.all()
     serializer_class = LoginSerializer
-
     def post(self, request, *args, **kwargs):
         email = request.data["email"]
         password = request.data["password"]
@@ -38,8 +36,7 @@ class LoginView(generics.CreateAPIView):
         if not password or not email:
             return Response(data={"message": "Both identifiant email and password are required to connect"},status=400)
         else:
-            try:
-                
+            try:     
                 user = authenticate(request, email=email, password=password)
                 print("voici mon user", user)
                 if user is not None:

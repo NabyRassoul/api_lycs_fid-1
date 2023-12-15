@@ -12,22 +12,22 @@ class PartnerSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
     
     
-    def create(self, validated_data):
-        # return User.objects.create(**validated_data)
-        user = Partner(
-            phone=validated_data['phone'],
-            firstName=validated_data['firstName'],
-            lastName=validated_data['lastName'],
-            email=validated_data['email'],
-            adresse = validated_data['adresse'],
-            name = validated_data['name'],
-            ninea = validated_data['ninea'],
-            groupe= validated_data['groupe'],
-            sousGroupe= validated_data['sousGroupe'],
-            contactRef= validated_data['contactRef']
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
+    # def create(self, validated_data):
+    #     # return User.objects.create(**validated_data)
+    #     user = Partner(
+    #         phone=validated_data['phone'],
+    #         firstName=validated_data['firstName'],
+    #         lastName=validated_data['lastName'],
+    #         email=validated_data['email'],
+    #         adresse = validated_data['adresse'],
+    #         name = validated_data['name'],
+    #         ninea = validated_data['ninea'],
+    #         groupe= validated_data['groupe'],
+    #         sousGroupe= validated_data['sousGroupe'],
+    #         contactRef= validated_data['contactRef']
+    #     )
+    #     user.set_password(validated_data['password'])
+    #     user.save()
+    #     return user
 
 
