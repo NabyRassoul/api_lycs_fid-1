@@ -2,7 +2,7 @@ from api_lycs_fid.serializers import *
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
-
+from rest_framework.permissions import IsAuthenticated
 # clients 
 
 class CampagneAPIView(generics.CreateAPIView):
@@ -11,6 +11,7 @@ class CampagneAPIView(generics.CreateAPIView):
     """
     queryset = Campagne.objects.filter(archived=False)
     serializer_class = CampagneSerializer
+    permission_classes = [IsAuthenticated]
     parser_classes = (MultiPartParser, FormParser,)
     def post(self, request):
         

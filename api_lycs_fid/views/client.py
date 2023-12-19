@@ -6,10 +6,12 @@ from ..models import Client
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import MultiPartParser
+from rest_framework.permissions import IsAuthenticated
 # clients 
 
 class ClientUploadFileView(generics.CreateAPIView):
     serializer_class = FileUploadSerializer
+    permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
         user_id = request.data['user_id']
         user = User.objects.get(pk=user_id)

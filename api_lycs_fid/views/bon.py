@@ -2,6 +2,7 @@ from api_lycs_fid.serializers import *
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import IsAuthenticated
 
 # clients 
 
@@ -12,6 +13,7 @@ class BonReductionAPIView(generics.CreateAPIView):
     
     queryset = BonReduction.objects.filter(archived=False)
     serializer_class = BonReductionSerializer
+    permission_classes = [IsAuthenticated]
     parser_classes = (MultiPartParser, FormParser,)
     def post(self, request):
         

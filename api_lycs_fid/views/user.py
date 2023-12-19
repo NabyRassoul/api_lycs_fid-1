@@ -4,7 +4,7 @@ from api_lycs_fid.serializers import *
 from django.contrib.auth import authenticate, login
 from rest_framework.response import Response
 from rest_framework.decorators import action
-
+from rest_framework.permissions import IsAuthenticated
 
 
 
@@ -16,6 +16,7 @@ class UserAPIView(generics.CreateAPIView):
     """
     # queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         user = User.objects.all().order_by('-id')

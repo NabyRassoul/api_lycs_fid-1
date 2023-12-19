@@ -11,11 +11,12 @@ from lycsfid.settings import EMAIL_HOST_USER
 from django.urls import reverse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-
+from rest_framework.permissions import IsAuthenticated
 # Partners 
 
 class PartnerUploadFileView(generics.CreateAPIView):
     serializer_class = FileUploadSerializer
+    permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
         user_id = request.data['user_id']
         user = User.objects.get(pk=user_id)
