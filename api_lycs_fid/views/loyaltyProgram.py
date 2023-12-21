@@ -23,7 +23,7 @@ class LoyaltyProgramDetail(generics.RetrieveUpdateAPIView):
 class LoyaltyTierCreate(generics.CreateAPIView):
     queryset = LoyaltyTier.objects.filter(archived=False)
     serializer_class = LoyaltyTierSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     
     def get(self, request, id, format=None):
         try:
