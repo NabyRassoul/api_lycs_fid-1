@@ -25,13 +25,7 @@ class LoyaltyTierCreate(generics.CreateAPIView):
     serializer_class = LoyaltyTierSerializer
     # permission_classes = [IsAuthenticated]
     
-    def get(self, request, id, format=None):
-        try:
-            item = LoyaltyTier.objects.filter(archived=False)
-            serializer = LoyaltyTierCreate(item)
-            return Response(serializer.data)
-        except LoyaltyTier.DoesNotExist:
-            return Response({
-                "status": "failure",
-                "message": "no such item with this id",
-                }, status=404)
+    def get(self, request, format=None):
+        items = LoyaltyTier.objects.filter(archived=False).order_by('pk')
+        serializer = LoyaltyTierSerializer(items, many=True, context={'request':request})
+        return Response({"count": items.count(),"data":serializer.data})
