@@ -6,3 +6,4 @@ from .bon import*
 from .campagne import *
 from .mytest import*
 from .signalSerializer import *
+from .loyaltyProgram import *
