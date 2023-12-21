@@ -16,7 +16,7 @@ from rest_framework.permissions import IsAuthenticated
 
 class PartnerUploadFileView(generics.CreateAPIView):
     serializer_class = FileUploadSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
         user_id = request.data['user_id']
         user = User.objects.get(pk=user_id)

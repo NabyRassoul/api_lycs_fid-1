@@ -8,7 +8,7 @@ from api_lycs_fid.serializers import LoyaltyProgramSerializer, LoyaltyTierSerial
 class LoyaltyProgramDetail(generics.RetrieveUpdateAPIView):
     queryset = LoyaltyProgram.objects.all()
     serializer_class = LoyaltyProgramSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     # lookup_field = 'id'
     def get(self, request, id, format=None):
         try:
@@ -24,3 +24,14 @@ class LoyaltyTierCreate(generics.CreateAPIView):
     queryset = LoyaltyTier.objects.filter(archived=False)
     serializer_class = LoyaltyTierSerializer
     permission_classes = [IsAuthenticated]
+    
+    def get(self, request, id, format=None):
+        try:
+            item = LoyaltyTier.objects.filter(archived=False)
+            serializer = LoyaltyTierCreate(item)
+            return Response(serializer.data)
+        except LoyaltyTier.DoesNotExist:
+            return Response({
+                "status": "failure",
+                "message": "no such item with this id",
+                }, status=404)

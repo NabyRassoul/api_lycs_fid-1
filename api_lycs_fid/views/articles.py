@@ -2,7 +2,7 @@ from api_lycs_fid.serializers import *
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.permissions import IsAuthenticated
+# from rest_framework.permissions import IsAuthenticated
 class ArticleAPIView(generics.CreateAPIView):
     """
     POST api/v1/Article/
@@ -10,7 +10,7 @@ class ArticleAPIView(generics.CreateAPIView):
     
     queryset = Article.objects.filter(archived=False)
     serializer_class = ArticleSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     parser_classes = (MultiPartParser, FormParser,)
     def post(self, request):
         

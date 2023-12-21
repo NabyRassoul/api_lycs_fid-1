@@ -11,7 +11,7 @@ class LikeView(generics.CreateAPIView):
     queryset = Campagne.objects.all()
     serializer_class = LikeSerializer
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         campagne = self.get_object()
