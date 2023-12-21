@@ -4,7 +4,7 @@ from api_lycs_fid.models import User
 
 class LoyaltyTier(models.Model):
     #Montant nécessaire pour atteindre ce palier
-    montant = models.DecimalField(max_digits=10, decimal_places=2)
+    montant = models.IntegerField()
     # Nombre de points attribués pour atteindre ce palier
     equiPoints = models.IntegerField()
     
