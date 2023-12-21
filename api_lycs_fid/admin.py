@@ -14,9 +14,15 @@ class ArticlAdmin(admin.ModelAdmin):
     pass
 class CampagneAdmin(admin.ModelAdmin):
     pass
+class LoyaltyAdmin(admin.ModelAdmin):
+    pass
+class LoyaltyTierAdmin(admin.ModelAdmin):
+    pass
 
 # Register your models here.
 admin.site.register(User, UserAdmin)
+admin.site.register(LoyaltyProgram, LoyaltyAdmin)
+admin.site.register(LoyaltyTier, LoyaltyTierAdmin)
 admin.site.register(Partner, PartnerAdmin)
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Article, ArticlAdmin)
