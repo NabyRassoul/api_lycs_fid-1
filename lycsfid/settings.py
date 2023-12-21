@@ -147,7 +147,7 @@ DATABASES ={
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'signales',
+#         'NAME': 'gainPoint',
 #         'USER': 'postgres',
 #         'PASSWORD': 'LycsDakar@23',
 #         'HOST': 'localhost',  # Laissez vide pour utiliser le localhost

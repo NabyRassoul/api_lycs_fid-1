@@ -1,6 +1,6 @@
 # # Create your views here.
 from django.shortcuts import render
-from ..forms import LoginForm
+from utils.mylogForm.login_form import LoginForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 # from django.shortcuts import red
@@ -9,7 +9,15 @@ from django.shortcuts import redirect
 
 
 def BASE(request):
-    return render(request, 'base.html')
+    if(request.user.is_superuser):
+    
+      context = {
+        'currentUser': request.user,
+        
+      }
+      return render(request, 'base.html', context)
+    return render(request, 'dashboard/login.html')
+    
 def Tab(request):
     return render(request, 'tables.html')
 
