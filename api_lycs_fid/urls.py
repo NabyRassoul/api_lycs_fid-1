@@ -92,7 +92,7 @@ urlpatterns = [
     path('bon/<int:id>/',views.BonReductionByIdAPIView.as_view()),
     path('signal-messages/', views.SignalMessageView.as_view(), name='signal-messages'),
     path('program-fidelite/<int:id>/', views.LoyaltyProgramDetail.as_view(), name='program-fidelite-detail'),
-    path('program-fidelite/create/', views.LoyaltyTierCreate.as_view(), name='program-fidelite'),
+    path('program-fidelite', views.LoyaltyTierCreate.as_view(), name='program-fidelite'),
     # path('notifications/', include('notifications.urls')), # new
     # path('index/', index, name='index'),
     # path('mytest/',views.MytestViews.as_view()), 
