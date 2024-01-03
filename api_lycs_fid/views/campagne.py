@@ -5,7 +5,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 # clients 
 
-class CampagneAPIView(generics.CreateAPIView):
+class CampagneAPIView(generics.ListCreateAPIView):
     """
     POST api/v1/campagnes/
     """
@@ -28,7 +28,7 @@ class CampagneAPIView(generics.CreateAPIView):
         return Response({"count": items.count(),"data":serializer.data})
 
 
-class CampagneByIdAPIView(generics.CreateAPIView):
+class CampagneByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = (
     #     permissions.IsAuthenticated,
     # )

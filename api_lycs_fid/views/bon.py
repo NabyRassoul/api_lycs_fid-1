@@ -6,7 +6,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 # clients 
 
-class BonReductionAPIView(generics.CreateAPIView):
+class BonReductionAPIView(generics.ListCreateAPIView):
     """
     POST api/v1/bon/
     """
@@ -30,7 +30,7 @@ class BonReductionAPIView(generics.CreateAPIView):
         return Response({"count": items.count(),"data":serializer.data})
 
 
-class BonReductionByIdAPIView(generics.CreateAPIView):
+class BonReductionByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = (
     #     permissions.IsAuthenticated,
     # )

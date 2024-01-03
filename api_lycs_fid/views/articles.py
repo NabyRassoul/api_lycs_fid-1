@@ -3,7 +3,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 # from rest_framework.permissions import IsAuthenticated
-class ArticleAPIView(generics.CreateAPIView):
+class ArticleAPIView(generics.ListCreateAPIView):
     """
     POST api/v1/Article/
     """
@@ -28,7 +28,7 @@ class ArticleAPIView(generics.CreateAPIView):
         serializer = ArticleSerializer(items, many=True)
         return Response({"count": items.count(),"data":serializer.data})
 
-class ArticleByIdAPIView(generics.CreateAPIView):
+class ArticleByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = (
     #     permissions.IsAuthenticated,
     # )
