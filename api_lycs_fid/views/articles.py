@@ -1,4 +1,5 @@
 from api_lycs_fid.serializers import *
+from api_lycs_fid.models import *
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -22,7 +23,7 @@ class ArticleAPIView(generics.ListCreateAPIView):
             serializer.save()
             serializer.save(image=self.request.data.get('image'))
              # Send FCM notification to the user
-            user = User.objects.get(username=request.user.FirstName)  # Adjust this based on your User model
+            user = User.objects.get(email=request.user.email)  # Adjust this based on your User model
             devices = FCMDevice.objects.filter(user=user)
 
             for device in devices:
