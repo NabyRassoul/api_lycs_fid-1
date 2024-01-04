@@ -13,10 +13,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import os
+# Firebase link
+from firebase_admin import initialize_app, credentials
+from google.auth import load_credentials_from_file
 # importation de config
 from decouple import config
 #importation database-url
 import dj_database_url
+
 # from api_lycs_fid.views.auth import EmailOrUsernameModelBackend
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -62,7 +66,7 @@ INSTALLED_APPS = [
     'api_lycs_fid.apps.ApiLycsFidConfig',
     'drf_yasg',
     "corsheaders",
-    # "notifications",
+    'fcm_django',
     'rest_framework',
     'rest_framework_simplejwt',
     'utils',
@@ -199,6 +203,7 @@ PASSWORD_RESET_TIMEOUT = 14400
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -223,8 +228,6 @@ STATICFILES_FINDERS = (
 )
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') #le chemin du serveur pour stocker les fichiers sur l’ordinateur. 
-
-
 
 
 # Default primary key field type
@@ -261,3 +264,34 @@ CORS_ALLOW_METHODS = (
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_ALLOW_ALL = True
+
+
+#CREDENTIALS FIREBASE
+class CustomFirebaseCredentials(credentials.ApplicationDefault):
+    def __init__(self, account_file_path: str):
+        super().__init__()
+        self._account_file_path = account_file_path
+
+    def _load_credential(self):
+        if not self._g_credential:
+            self._g_credential, self._project_id = load_credentials_from_file(self._account_file_path,
+                                                                              scopes=credentials._scopes)
+
+#Then go ahead to load the json file to be used by fcm_django.
+custom_credentials = CustomFirebaseCredentials('api_lycs_fid/credentials.json')
+FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, name='messaging')
+
+FCM_DJANGO_SETTINGS = {
+     # an instance of firebase_admin.App to be used as default for all fcm-django requests
+     # default: None (the default Firebase app)
+    "DEFAULT_FIREBASE_APP": FIREBASE_MESSAGING_APP,
+     # default: _('FCM Django')
+    "APP_VERBOSE_NAME": "What ever name",
+     # true if you want to have only one active device per registered user at a time
+     # default: False
+    "ONE_DEVICE_PER_USER": False,
+     # devices to which notifications cannot be sent,
+     # are deleted upon receiving error response from FCM
+     # default: False
+    "DELETE_INACTIVE_DEVICES": False,
+}

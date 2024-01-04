@@ -2,6 +2,9 @@ from api_lycs_fid.serializers import *
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
+
+from fcm_django.models import FCMDevice
+from firebase_admin.messaging import Message, Notification
 # from rest_framework.permissions import IsAuthenticated
 class ArticleAPIView(generics.ListCreateAPIView):
     """
@@ -18,7 +21,19 @@ class ArticleAPIView(generics.ListCreateAPIView):
         if serializer.is_valid():
             serializer.save()
             serializer.save(image=self.request.data.get('image'))
-            
+             # Send FCM notification to the user
+            user = User.objects.get(username=request.user.FirstName)  # Adjust this based on your User model
+            devices = FCMDevice.objects.filter(user=user)
+
+            for device in devices:
+                device.send_message(
+                    message=Message(
+                        notification=Notification(
+                            title='New Article Created',
+                            body=f'A new article has been created: {serializer.data["nomArticle"]}'
+                        ),
+                    ),
+                )
           
             return Response( serializer.data,status=201)
         return Response(serializer.errors, status=400)
