@@ -27,7 +27,7 @@ class CampagneAPIView(generics.ListCreateAPIView):
         serializer = CampagneSerializer(items, many=True, context={'request':request})
         return Response({"count": items.count(),"data":serializer.data})
 
-
+# the test
 class CampagneByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = (
     #     permissions.IsAuthenticated,
