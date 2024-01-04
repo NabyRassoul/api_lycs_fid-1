@@ -2,7 +2,7 @@ from api_lycs_fid.serializers import *
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
-
+# the test
 from fcm_django.models import FCMDevice
 from firebase_admin.messaging import Message, Notification
 # from rest_framework.permissions import IsAuthenticated
