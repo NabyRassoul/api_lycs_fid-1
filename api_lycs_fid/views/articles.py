@@ -6,7 +6,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 # the test
 from fcm_django.models import FCMDevice
 from firebase_admin.messaging import Message, Notification
-# from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 class ArticleAPIView(generics.ListCreateAPIView):
     """
     POST api/v1/Article/
@@ -14,7 +14,7 @@ class ArticleAPIView(generics.ListCreateAPIView):
     
     queryset = Article.objects.filter(archived=False)
     serializer_class = ArticleSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     parser_classes = (MultiPartParser, FormParser,)
     def post(self, request):
         
@@ -23,7 +23,7 @@ class ArticleAPIView(generics.ListCreateAPIView):
             serializer.save()
             serializer.save(image=self.request.data.get('image'))
              # Send FCM notification to the user
-            user = User.objects.get(email=request.user.email)  # Adjust this based on your User model
+            user = User.objects.get(firstName=request.user.firstName)  # Adjust this based on your User model
             devices = FCMDevice.objects.filter(user=user)
 
             for device in devices:
