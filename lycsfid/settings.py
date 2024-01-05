@@ -278,7 +278,7 @@ class CustomFirebaseCredentials(credentials.ApplicationDefault):
                                                                               scopes=credentials._scopes)
 
 #Then go ahead to load the json file to be used by fcm_django.
-custom_credentials = CustomFirebaseCredentials('api_lycs_fid/credentials.json')
+custom_credentials = CustomFirebaseCredentials(r'C:\Users\HP\OneDrive\Bureau\Lycs_fidilisation\Fid_BackEnd\api_lycs_fid\credentials.json')
 FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, name='messaging')
 
 FCM_DJANGO_SETTINGS = {
