@@ -268,10 +268,10 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 #CREDENTIALS FIREBASE
 
-try:
-    from .local_settings import *
-except ImportError:
-    print("No local setting found, in production")
+# try:
+#     from .local_settings import *
+# except ImportError:
+#     print("No local setting found, in production")
 # class CustomFirebaseCredentials(credentials.ApplicationDefault):
 #     def __init__(self, account_file_path: str):
 #         super().__init__()

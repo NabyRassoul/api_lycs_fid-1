@@ -4,7 +4,6 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 # the test
-from api_lycs_fid.FCMManage import sendPush
 from fcm_django.models import FCMDevice
 from firebase_admin.messaging import Message, Notification
 from rest_framework.permissions import IsAuthenticated
@@ -18,29 +17,26 @@ class ArticleAPIView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     parser_classes = (MultiPartParser, FormParser,)
     def post(self, request):
-        serializer = ArticleSerializer(data=request.data, context={'request': request})
         
+        serializer = ArticleSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             serializer.save(image=self.request.data.get('image'))
-            
-            # Envoyer la notification FCM à l'utilisateur
-            title = 'Nouvel Article Créé'
-            body = f'Un nouvel article a été créé : {serializer.data["nomArticle"]}'
-            
-            # Récupérer le token FCM de l'utilisateur à partir du modèle Client
-            try:
-                client = Client.objects.get(user=request.user)
-                registration_token = client.user_fcmdevice.registration_id
-            except Client.DoesNotExist:
-                registration_token = None
+             # Send FCM notification to the user
+            # user = User.objects.get(firstName=request.user.firstName)  # Adjust this based on your User model
+            # devices = FCMDevice.objects.filter(user=user)
 
-            # Envoyez la notification uniquement si le token est disponible
-            if registration_token:
-                sendPush(title, body, [registration_token], {"article_id": serializer.data["id"], "action": "added"})
-
-            return Response(serializer.data, status=201)
-        
+            # for device in devices:
+            #     device.send_message(
+            #         message=Message(
+            #             notification=Notification(
+            #                 title='New Article Created',
+            #                 body=f'A new article has been created: {serializer.data["nomArticle"]}'
+            #             ),
+            #         ),
+            #     )
+          
+            return Response( serializer.data,status=201)
         return Response(serializer.errors, status=400)
           
     def get(self, request, format=None):
