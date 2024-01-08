@@ -66,9 +66,9 @@ INSTALLED_APPS = [
     'api_lycs_fid.apps.ApiLycsFidConfig',
     'drf_yasg',
     "corsheaders",
-    'fcm_django',
     'rest_framework',
     'rest_framework_simplejwt',
+    'fcm_django',
     'utils',
     # "channels"
     
@@ -151,7 +151,7 @@ DATABASES ={
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'gainPoint',
+#         'NAME': 'notifs',
 #         'USER': 'postgres',
 #         'PASSWORD': 'LycsDakar@23',
 #         'HOST': 'localhost',  # Laissez vide pour utiliser le localhost
@@ -267,31 +267,36 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 
 #CREDENTIALS FIREBASE
-class CustomFirebaseCredentials(credentials.ApplicationDefault):
-    def __init__(self, account_file_path: str):
-        super().__init__()
-        self._account_file_path = account_file_path
 
-    def _load_credential(self):
-        if not self._g_credential:
-            self._g_credential, self._project_id = load_credentials_from_file(self._account_file_path,
-                                                                              scopes=credentials._scopes)
+try:
+    from .local_settings import *
+except ImportError:
+    print("No local setting found, in production")
+# class CustomFirebaseCredentials(credentials.ApplicationDefault):
+#     def __init__(self, account_file_path: str):
+#         super().__init__()
+#         self._account_file_path = account_file_path
 
-#Then go ahead to load the json file to be used by fcm_django.
-custom_credentials = CustomFirebaseCredentials(r'C:\Users\HP\OneDrive\Bureau\Lycs_fidilisation\Fid_BackEnd\api_lycs_fid\credentials.json')
-FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, name='messaging')
+#     def _load_credential(self):
+#         if not self._g_credential:
+#             self._g_credential, self._project_id = load_credentials_from_file(self._account_file_path,
+#                                                                               scopes=credentials._scopes)
 
-FCM_DJANGO_SETTINGS = {
-     # an instance of firebase_admin.App to be used as default for all fcm-django requests
-     # default: None (the default Firebase app)
-    "DEFAULT_FIREBASE_APP": FIREBASE_MESSAGING_APP,
-     # default: _('FCM Django')
-    "APP_VERBOSE_NAME": "What ever name",
-     # true if you want to have only one active device per registered user at a time
-     # default: False
-    "ONE_DEVICE_PER_USER": False,
-     # devices to which notifications cannot be sent,
-     # are deleted upon receiving error response from FCM
-     # default: False
-    "DELETE_INACTIVE_DEVICES": False,
-}
+# #Then go ahead to load the json file to be used by fcm_django.
+# custom_credentials = CustomFirebaseCredentials(r'C:\Users\HP\OneDrive\Bureau\Lycs_fidilisation\Fid_BackEnd\api_lycs_fid\credentials.json')
+# FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, name='messaging')
+
+# FCM_DJANGO_SETTINGS = {
+#      # an instance of firebase_admin.App to be used as default for all fcm-django requests
+#      # default: None (the default Firebase app)
+#     "DEFAULT_FIREBASE_APP": FIREBASE_MESSAGING_APP,
+#      # default: _('FCM Django')
+#     "APP_VERBOSE_NAME": "What ever name",
+#      # true if you want to have only one active device per registered user at a time
+#      # default: False
+#     "ONE_DEVICE_PER_USER": False,
+#      # devices to which notifications cannot be sent,
+#      # are deleted upon receiving error response from FCM
+#      # default: False
+#     "DELETE_INACTIVE_DEVICES": False,
+# }

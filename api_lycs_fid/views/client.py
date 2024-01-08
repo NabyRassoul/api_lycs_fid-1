@@ -3,9 +3,12 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 import io, csv, pandas as pd
 from ..models import Client
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import MultiPartParser
+from api_lycs_fid.models import *
+from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 # clients 
 
@@ -143,3 +146,18 @@ class ClientByUser(generics.RetrieveAPIView):
                 "status": "failure",
                 "message": "no such item with this id",
                 }, status=404)
+#Attributions des points
+# def attribuer_points_fidelite(client, montant_achat):
+#     # Logique pour attribuer des points en fonction du montant de l'achat
+#     points_attribues = montant_achat // 10  # Exemple : 1 point pour chaque 10 euros d'achat
+    
+#     # Créer un enregistrement dans LoyaltyPoints
+#     Points.objects.create(client=client, points=points_attribues)
+    
+#     return points_attribues
+
+# @api_view(['GET'])
+# def consulter_solde_points(request):
+#     client = request.user
+#     solde_points = client.solde_points_fidelite()
+#     return Response({"solde_points": solde_points})
