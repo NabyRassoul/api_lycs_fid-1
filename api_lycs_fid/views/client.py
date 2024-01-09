@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import MultiPartParser
 from api_lycs_fid.models import *
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 # clients 
 
@@ -81,7 +81,21 @@ class ClientAPIView(generics.ListCreateAPIView):
         serializer = ClientSerializer(items, many=True)
         return Response({"count": items.count(),"data":serializer.data})
 
+    #Attributions des points
 
+@api_view(['GET'])
+def consulter_solde_points(request):
+    client = request.user
+    solde_points = client.points_received.aggregate(models.Sum('points'))['points__sum'] or 0
+    details_points_par_partenaire = [
+        {
+            "partner_name": partner.name,
+            "points_attributed": partner.points_set.filter(client=client).aggregate(models.Sum('points'))['points__sum'] or 0
+        }
+        for partner in Partner.objects.all()
+    ]
+
+    return Response({"solde_points": solde_points, "details_points_par_partenaire": details_points_par_partenaire})
 
 class ClientByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = (
@@ -146,18 +160,3 @@ class ClientByUser(generics.RetrieveAPIView):
                 "status": "failure",
                 "message": "no such item with this id",
                 }, status=404)
-#Attributions des points
-# def attribuer_points_fidelite(client, montant_achat):
-#     # Logique pour attribuer des points en fonction du montant de l'achat
-#     points_attribues = montant_achat // 10  # Exemple : 1 point pour chaque 10 euros d'achat
-    
-#     # Créer un enregistrement dans LoyaltyPoints
-#     Points.objects.create(client=client, points=points_attribues)
-    
-#     return points_attribues
-
-# @api_view(['GET'])
-# def consulter_solde_points(request):
-#     client = request.user
-#     solde_points = client.solde_points_fidelite()
-#     return Response({"solde_points": solde_points})

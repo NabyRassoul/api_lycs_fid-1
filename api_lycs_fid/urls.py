@@ -65,6 +65,10 @@ urlpatterns = [
     path('clients/export',views.ClientExportFileView),
     path('clients/<int:id>/',views.ClientByIdAPIView.as_view()),
     path('clients/user/<int:id>/',views.ClientByUser.as_view()),
+    #pontfidel
+    path('attribution-points/', views.AttributionPointsView.as_view(), name='attribution-points'),
+    path('consulter_solde_points', views.consulter_solde_points, name='consulter_solde_points'),
+    
     
     # #Parteniare
     path('partenaires',views.PartnerAPIView.as_view()),
