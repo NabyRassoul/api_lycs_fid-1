@@ -14,8 +14,8 @@ from datetime import timedelta
 from pathlib import Path
 import os
 # Firebase link
-from firebase_admin import initialize_app, credentials
-from google.auth import load_credentials_from_file
+# from firebase_admin import initialize_app, credentials
+# from google.auth import load_credentials_from_file
 # importation de config
 from decouple import config
 #importation database-url
@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     "corsheaders",
     'rest_framework',
     'rest_framework_simplejwt',
-    'fcm_django',
+    # 'fcm_django',
     'utils',
     # "channels"
     
@@ -145,19 +145,19 @@ ASGI_APPLICATION = "lycsfid.asgi.application"
 
 
 # SERVER DATABASE
-# DATABASES ={
-#     'default':dj_database_url.parse(config('DATABASE_URL'))
-# }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'atribus',
-        'USER': 'postgres',
-        'PASSWORD': 'LycsDakar@23',
-        'HOST': 'localhost',  # Laissez vide pour utiliser le localhost
-        'PORT': '5432',  # Laissez vide pour utiliser le port par défaut (5432)
-    }
+DATABASES ={
+    'default':dj_database_url.parse(config('DATABASE_URL'))
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'atribus',
+#         'USER': 'postgres',
+#         'PASSWORD': 'LycsDakar@23',
+#         'HOST': 'localhost',  # Laissez vide pour utiliser le localhost
+#         'PORT': '5432',  # Laissez vide pour utiliser le port par défaut (5432)
+#     }
+# }
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -265,38 +265,3 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_ALLOW_ALL = True
 
-
-#CREDENTIALS FIREBASE
-
-# try:
-#     from .local_settings import *
-# except ImportError:
-#     print("No local setting found, in production")
-# class CustomFirebaseCredentials(credentials.ApplicationDefault):
-#     def __init__(self, account_file_path: str):
-#         super().__init__()
-#         self._account_file_path = account_file_path
-
-#     def _load_credential(self):
-#         if not self._g_credential:
-#             self._g_credential, self._project_id = load_credentials_from_file(self._account_file_path,
-#                                                                               scopes=credentials._scopes)
-
-# #Then go ahead to load the json file to be used by fcm_django.
-# custom_credentials = CustomFirebaseCredentials(r'C:\Users\HP\OneDrive\Bureau\Lycs_fidilisation\Fid_BackEnd\api_lycs_fid\credentials.json')
-# FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, name='messaging')
-
-# FCM_DJANGO_SETTINGS = {
-#      # an instance of firebase_admin.App to be used as default for all fcm-django requests
-#      # default: None (the default Firebase app)
-#     "DEFAULT_FIREBASE_APP": FIREBASE_MESSAGING_APP,
-#      # default: _('FCM Django')
-#     "APP_VERBOSE_NAME": "What ever name",
-#      # true if you want to have only one active device per registered user at a time
-#      # default: False
-#     "ONE_DEVICE_PER_USER": False,
-#      # devices to which notifications cannot be sent,
-#      # are deleted upon receiving error response from FCM
-#      # default: False
-#     "DELETE_INACTIVE_DEVICES": False,
-# }
