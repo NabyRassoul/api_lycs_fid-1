@@ -9,3 +9,4 @@ from .mytest import *
 from .likesViews import *
 from .view import *
 from .loyaltyProgram import *
+from .points import *

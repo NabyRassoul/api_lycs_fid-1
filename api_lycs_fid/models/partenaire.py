@@ -9,7 +9,10 @@ class Partner(User):
     sousGroupe = models.CharField(max_length=100, blank=True)
     ninea  = models.CharField(max_length=100, blank=True)
     archived = models.BooleanField(default=False)
-   
+    @property
+    def is_partner(self):
+        # Cette propriété retourne True si l'utilisateur est un partenaire, sinon False
+        return True
     
     def save(self, *args, **kwargs):
       

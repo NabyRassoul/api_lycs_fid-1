@@ -1,5 +1,5 @@
 from django.db import models
-
+from api_lycs_fid.models.points import Points
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils import timezone
 
@@ -59,7 +59,8 @@ class User(AbstractBaseUser,PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
     
     
-   
+    def solde_points_fidelite(self):
+        return Points.objects.filter(client=self).aggregate(models.Sum('points'))['points__sum'] or 0
 
     objects = MyUserManager()
     
