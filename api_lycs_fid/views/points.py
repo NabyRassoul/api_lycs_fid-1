@@ -1,54 +1,99 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import generics, permissions, status
 from api_lycs_fid.models import User, Points
-from api_lycs_fid.serializers import PointsSerializer
-from django import forms
-from rest_framework.decorators import api_view
-class AttributionPointsForm(forms.Form):
-    client_id = forms.IntegerField()
-    points_attribues = forms.IntegerField()
+from api_lycs_fid.serializers import *
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes
+from django.shortcuts import get_object_or_404
 
-class AttributionPointsView(APIView):
-    
+
+class AttributionPointsView(generics.ListCreateAPIView):
+    queryset = Points.objects.all()
+    serializer_class = PointsSerializer 
+
     def post(self, request, format=None):
         # Assumez que le partenaire est authentifié et a accès à la vue d'attribution des points
-        partenaire = request.user
+        partenaire = self.request.user  # Utilisez self.request.user au lieu de request.user
 
-        # Créez un formulaire avec les données du corps de la requête
-        form = AttributionPointsForm(request.data)
+        # Récupérez les données du corps de la requête
+        client_id = request.data.get('client_id')
+        points_attribues = request.data.get('points_attribues')
 
-        # Validez le formulaire
-        if form.is_valid():
-            # Récupérez les données du formulaire
-            client_id = form.cleaned_data['client_id']
-            points_attribues = form.cleaned_data['points_attribues']
+        # Vérifiez si le client existe
+        try:
+            client = get_object_or_404(User, pk=client_id)
+        except User.DoesNotExist as e:
+            print(f"Client with ID {client_id} not found. Error: {e}")
+            return Response({"error": f"Client with ID {client_id} not found"}, status=status.HTTP_404_NOT_FOUND)
+                
+        # Vérifiez si le montant des points attribués est valide
+        if points_attribues is None or not isinstance(points_attribues, int):
+            print('le client ', points_attribues)
+            return Response({"error": "Invalid points_attribues value"}, status=status.HTTP_400_BAD_REQUEST)
 
-            # Vérifiez si le client existe
-            try:
-                client = User.objects.get(pk=client_id)
-            except User.DoesNotExist:
-                return Response({"error": f"Client with ID {client_id} not found"}, status=status.HTTP_404_NOT_FOUND)
+        # Créez un sérialiseur Points avec les données de la requête
+        serializer = PointsSerializer(data={'client': client.id, 'partner': partenaire.id, 'points': points_attribues})
 
-            # Vérifiez si le montant des points attribués est valide
-            if points_attribues is None or not isinstance(points_attribues, int):
-                return Response({"error": "Invalid points_attribues value"}, status=status.HTTP_400_BAD_REQUEST)
+        # Validez les données du sérialiseur
+        if serializer.is_valid():
+            # Créez un nouvel objet Points
+            serializer.save()
 
-            # Créez un sérialiseur Points avec les données récupérées
-            serializer = PointsSerializer(data={'client': client.id, 'partner': partenaire.id, 'points': points_attribues})
+            # Vous pouvez également renvoyer les détails de l'attribution des points si nécessaire
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-            # Validez les données du sérialiseur
-            if serializer.is_valid():
-                # Créez un nouvel objet Points
-                serializer.save()
-
-                # Vous pouvez également renvoyer les détails de l'attribution des points si nécessaire
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-            # En cas d'erreurs de validation du sérialiseur
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        # En cas de formulaire non valide
-        return Response({"error": "Invalid form data"}, status=status.HTTP_400_BAD_REQUEST)
+        # En cas d'erreurs de validation du sérialiseur
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+
+# @api_view(['POST'])
+# def attribuer_points_fidelite(request):
+#     # Assumez que le partenaire est authentifié et a accès à la vue d'attribution des points
+#     partenaire = request.user
+
+#     # Récupérez les données du corps de la requête
+#     client_id = request.data.get('client_id')
+#     points_attribues = request.data.get('points_attribues')
+
+#     # Vérifiez si le client existe
+#     try:
+#         client = User.objects.get(pk=client_id)
+#     except User.DoesNotExist:
+#         return Response({"error": f"Client with ID {client_id} not found"}, status=status.HTTP_404_NOT_FOUND)
+
+#     # Vérifiez si le montant des points attribués est valide
+#     if points_attribues is None or not isinstance(points_attribues, int):
+#         return Response({"error": "Invalid points_attribues value"}, status=status.HTTP_400_BAD_REQUEST)
+
+#     # Créez un sérialiseur Points avec les données de la requête
+#     serializer = PointsSerializer(data={'client': client.id, 'partner': partenaire.id, 'points': points_attribues})
+
+#     # Validez les données du sérialiseur
+#     if serializer.is_valid():
+#         # Créez un nouvel objet Points
+#         serializer.save()
+
+#         # Vous pouvez également renvoyer les détails de l'attribution des points si nécessaire
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+#     # En cas d'erreurs de validation du sérialiseur
+#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# # views.py
+# # @api_view(['GET'])
+# # def consulter_solde_points(request):
+# #     client = request.user
+# #     solde_points = client.points_received.aggregate(models.Sum('points'))['points__sum'] or 0
+# #     details_points_par_partenaire = [
+# #         {
+# #             "partner_name": partner.username,  # Changez cela en champ approprié pour le nom du partenaire
+# #             "points_attributed": partner.points_given.filter(client=client).aggregate(models.Sum('points'))['points__sum'] or 0
+# #         }
+# #         for partner in User.objects.filter(is_partner=True)
+# #     ]
+
+# #     return Response({"solde_points": solde_points, "details_points_par_partenaire": details_points_par_partenaire})

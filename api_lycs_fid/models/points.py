@@ -2,8 +2,8 @@
 from django.db import models
 
 class Points(models.Model):
-    client = models.ForeignKey('api_lycs_fid.User', on_delete=models.CASCADE, related_name='points_received')
-    partner = models.ForeignKey('api_lycs_fid.Partner', on_delete=models.CASCADE)
+    client = models.ForeignKey('api_lycs_fid.Client', on_delete=models.CASCADE, related_name='points_received')
+    partner = models.ForeignKey('api_lycs_fid.Partner', on_delete=models.CASCADE, related_name='points_given')
     points = models.PositiveIntegerField()
     date_attributed = models.DateTimeField(auto_now_add=True)
 
