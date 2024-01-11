@@ -28,7 +28,7 @@ class ArticleAPIView(generics.ListCreateAPIView):
           
     def get(self, request, format=None):
         items = Article.objects.filter(archived=False).order_by('pk')
-        serializer = ArticleSerializer(items, many=True)
+        serializer = ArticleSerializer(items, many=True, context={'request':request})
         return Response({"count": items.count(),"data":serializer.data})
 
 class ArticleByIdAPIView(generics.RetrieveUpdateDestroyAPIView):
