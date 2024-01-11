@@ -20,10 +20,9 @@ class ArticleAPIView(generics.ListCreateAPIView):
         
         serializer = ArticleSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            serializer.save()
             serializer.save(image=self.request.data.get('image'))
+            serializer.save()
             
-          
             return Response( serializer.data,status=201)
         return Response(serializer.errors, status=400)
           
